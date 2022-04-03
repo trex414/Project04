@@ -9,6 +9,7 @@ create, edit and delete accounts
 
 What is in quizzes class:
 variables: arraylist of Question objects
+randomize question objects
 
 What is in questions class:
 variables: String prompt - name of the question
