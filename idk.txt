@@ -4,5 +4,5 @@ What is in user class:
 create, edit and delete accounts
   look labmanager for help
   The attributes:
-  User name, password
+  User name, password, student or teacher
   check to make sure no one else has username.
