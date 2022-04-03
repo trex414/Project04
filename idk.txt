@@ -1,5 +1,5 @@
 Classes
-Students, teachers, user, quizzes, menu
+Students, teachers, user, quizzes, questions, menu
 What is in user class:
 create, edit and delete accounts
   look labmanager for help
@@ -16,3 +16,12 @@ variables: String prompt - name of the question
            String answer - answer to the question
            String[] choices - list of choices for the question
 methods: randomize the choices, edit the question, edit the choices
+
+What is in Students class:
+extend user
+call on quizzes to choose which quiz 
+take quiz method
+they can veiw grades, update grades after each subission
+submit in students and timestamp
+
+
