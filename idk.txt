@@ -8,3 +8,10 @@ create, edit and delete accounts
   check to make sure no one else has username.
 
 What is in quizzes class:
+variables: arraylist of Question objects
+
+What is in questions class:
+variables: String prompt - name of the question
+           String answer - answer to the question
+           String[] choices - list of choices for the question
+methods: randomize the choices, edit the question, edit the choices
