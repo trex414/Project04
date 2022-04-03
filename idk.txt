@@ -6,3 +6,5 @@ create, edit and delete accounts
   The attributes:
   User name, password, student or teacher
   check to make sure no one else has username.
+
+What is in quizzes class:
