@@ -1,32 +1,34 @@
 Classes
 Students, teachers, user, quizzes, questions, menu
-What is in user class:
+What is in user class: Carrie
 create, edit and delete accounts
   look labmanager for help
   The attributes:
   User name, password, student or teacher
   check to make sure no one else has username.
 
-What is in quizzes class:
+What is in quizzes class: grayson, carrie will help
 variables: arraylist of Question objects
 randomize question objects
 
-What is in questions class:
+What is in questions class: grayson, Trey, carrie
 variables: String prompt - name of the question
            String answer - answer to the question
            String[] choices - list of choices for the question
 methods: randomize the choices, edit the question, edit the choices
 
-What is in Students class:
+What is in Students class: akar
 extend user
 call on quizzes to choose which quiz 
 take quiz method
 they can veiw grades, update grades after each subission //when does the grade get updated, does the teach grade it or is it auto gradded
 submit in students and timestamp // ask on campuswire
 
-What is in Teachers class:
-calls quizzes for edit, create, delete
+What is in Teachers class: Trey
+quiz object
+quizzes for edit, create, delete
 find a specific students submissions for the quiz
 
-menu class:
+menu class: alex
 user interacts, creates new objects
+Test cases alex, akar
