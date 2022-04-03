@@ -28,4 +28,5 @@ What is in Teachers class:
 calls quizzes for edit, create, delete
 find a specific students submissions for the quiz
 
-
+menu class:
+user interacts, creates new objects
