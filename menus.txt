@@ -1,4 +1,6 @@
-Start of program:
+Menus:
+
+(Start of program)
 Select an option below:
 1. Login
   User inputs username and password
@@ -6,3 +8,7 @@ Select an option below:
   User inputs a username, password, and role (Student or Teacher)
 3. Exit
 
+Select an option below:
+1. Add quiz
+2. Edit quiz
+3. Delete quiz
