@@ -17,7 +17,7 @@ variables: String prompt - name of the question
            String[] choices - list of choices for the question
 methods: randomize the choices, edit the question, edit the choices
 
-What is in Students class: akar
+What is in Students class: aakar
 extend user
 call on quizzes to choose which quiz 
 take quiz method
@@ -31,4 +31,4 @@ find a specific students submissions for the quiz
 
 menu class: alex
 user interacts, creates new objects
-Test cases alex, akar
+Test cases alex, aakar
