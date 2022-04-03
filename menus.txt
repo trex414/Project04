@@ -8,7 +8,23 @@ Select an option below:
   User inputs a username, password, and role (Student or Teacher)
 3. Exit
 
+(If teacher logged in)
 Select an option below:
 1. Add quiz
 2. Edit quiz
 3. Delete quiz
+4. Exit
+
+(If student loggied in)
+Select an option below:
+1. Take a quiz
+2. Exit
+  If 1:
+      Select an option below:
+      1. Quiz 1
+      2. Quiz 2
+      ...
+      n. Quiz n
+      n+1. Exit
+
+
