@@ -21,7 +21,7 @@ What is in Students class:
 extend user
 call on quizzes to choose which quiz 
 take quiz method
-they can veiw grades, update grades after each subission
+they can veiw grades, update grades after each subission //when does the grade get updated, does the teach grade it or is it auto gradded
 submit in students and timestamp
 
 
