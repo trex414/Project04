@@ -36,7 +36,7 @@ Select an option below:
             n. Submission n
 5. Exit
 
-(If student loggied in)
+(If student logged in)
 Select an option below:
 1. Take a quiz
 2. Exit
