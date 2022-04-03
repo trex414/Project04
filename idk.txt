@@ -1,2 +1,8 @@
 Classes
 Students, teachers, user, quizzes, menu
+What is in user class:
+create, edit and delete accounts
+  look labmanager for help
+  The attributes:
+  User name, password
+  check to make sure no one else has username.
