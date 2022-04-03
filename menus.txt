@@ -11,9 +11,30 @@ Select an option below:
 (If teacher logged in)
 Select an option below:
 1. Add quiz
+    1. Add question
+        How many choices do you want to add?
+        Add prompt:
+        Add choice 1:
+        Add choice 2:
+        ...
+        Add choice n:
+        Add answer:
+    2. Finish Quiz
 2. Edit quiz
 3. Delete quiz
-4. Exit
+4. View student submissions
+    Student's username:
+        Which quiz would you like to view?
+        1. Quiz 1
+        2. Quiz 2
+        ...
+        n. Quiz n
+            Which submission would you like to view?
+            1. Submission 1
+            2. Submission 2
+            ...
+            n. Submission n
+5. Exit
 
 (If student loggied in)
 Select an option below:
