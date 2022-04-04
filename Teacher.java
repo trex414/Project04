@@ -1,3 +1,4 @@
+// this is nowhere done and needs a lot of work. i will most likley change it tomorrow.
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
