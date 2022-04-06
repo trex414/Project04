@@ -17,6 +17,21 @@ public class Quiz {
         return this.questions;
     }
 
+    // Allows user to get a question based on the prompt
+    public Question getQuestion(String prompt) {
+
+        Question q = null;
+
+        for (int i = 0; i < questions.size(); i++) {
+            if (prompt.equals(questions.get(i).getPrompt())) {
+                q = questions.get(i);
+                break;
+            }
+        }
+
+        return q;
+    }
+
     public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
     }
