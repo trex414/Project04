@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Teachers extends User {
@@ -12,7 +10,7 @@ public class Teachers extends User {
     /** do we want to make each teacher have all their quizzes?
      *  how do we want to get files printed for persistence? we could have a Writing function in each file
      *  we can have each quiz print into a quizzes file, students name file, each student with their quiz, same with teachers courses
-     *  each course could write the quizzes int their course 
+     *  each course could write the quizzes int their course
      */
 
     //be able to add quizzes to a course the teach can only acces it
@@ -45,7 +43,7 @@ public class Teachers extends User {
         for (int i = 0; i < courses.size(); i++)
             if (course.equalsIgnoreCase(courses.get(i).getName())) {
                     courses.get(i).getQuiz(quizName).setName(newQuizName);
-                
+
                 return "Quiz Name updated";
             }
         return "Error. No quiz in this course by that name";
@@ -103,7 +101,7 @@ public class Teachers extends User {
             }
             // returns a arraylist that can then be printed to show someones quiz
             return studentQuiz;
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             studentQuiz.add("Did not work");
@@ -117,5 +115,67 @@ public class Teachers extends User {
      * i would then rewirte each file to get where they have the quiz and then under it put score, ones they got wrong,
      * ones they got correct
      * or add all the graded quizes to their own file for each quiz
+     * @return
      */
+    
+    // this will send each question to the main to grade
+    public ArrayList<String> PrintQuestionQuiz(String fileName, String quizName, String questionNum) {
+        // calls the quiz needed version
+        ArrayList<String> student = checkStudentQuiz(fileName, quizName);
+        ArrayList<String> question = new ArrayList<>();
+        int questionNextInt = Integer.parseInt(questionNum);
+        String questionNextString = "" + (questionNextInt + 1);
+        //will loop through the whole quiz for the question
+        for (int i = 0; i < student.size(); i++) {
+            // checks to see if the question is starting in the right spot
+            while (student.get(i).equalsIgnoreCase(questionNum)) {
+                i++;
+            }
+            // checks to see if the next question is next
+            if (!student.get(i).equalsIgnoreCase(questionNextString)) {
+                break;
+            } else {
+                // adds all the lines for the question to a arraylist
+                question.add(student.get(i));
+            }
+        }
+        return question;
+    }
+    
+    // with the grades for each question this will print the graded quiz to a file
+    public String gradeQuiz(String fileName, String quizName, String writingFile, ArrayList<Integer> grades,
+                            String student) {
+        try {
+            // starts with the first question and make a verable to add for a final grade
+            int questionNextInt = 1;
+            int finalgrade = 0;
+            // call for the whole quiz ungraded
+            ArrayList<String> student1 = checkStudentQuiz(fileName, quizName);
+            // make a file with the name given
+            FileWriter fw1 = new FileWriter(writingFile, true);
+            BufferedWriter bw1 = new BufferedWriter(fw1);
+            PrintWriter pw1 = new PrintWriter(bw1);
+            // start writing the graded quiz
+            pw1.println(student + "\nGraded Quiz: " + quizName);
+            // make a for loop to look through the whole quiz
+            for (int i = 0; i < student1.size(); i++) {
+                String questionNextString = "" + (questionNextInt + 1);
+                if (!student1.get(i).equalsIgnoreCase(questionNextString)) {
+                    pw1.println("the grade for that question is: " + grades.get(i));
+                    questionNextInt++;
+                } else {
+                    pw1.println(student1.get(i));
+                }
+                 finalgrade = finalgrade + grades.get(i);
+            }
+            pw1.println("The total grade is: " + (finalgrade/grades.size()));
+            fw1.close();
+            bw1.close();
+            fw1.close();
+            return "The quiz is finished being graded";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "The quiz did not get graded";
+        }
+    }
 }
