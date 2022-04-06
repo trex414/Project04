@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Course {
 
-    String name;
+    private String name;
     private ArrayList<Quiz> quizzes;
 
     // Possible parameters we could add:
