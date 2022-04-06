@@ -29,6 +29,10 @@ quiz object
 quizzes for edit, create, delete
 find a specific students submissions for the quiz
 
+What is in Course class: Grayson
+list of quizzes
+name of the course
+
 menu class: alex
 user interacts, creates new objects
 Test cases alex, aakar
