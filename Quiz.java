@@ -3,14 +3,21 @@ import java.util.Collections;
 
 public class Quiz {
 
-    ArrayList<Question> questions;
+    private String title;
+    private ArrayList<Question> questions;
 
-    public Quiz(ArrayList<Question> questions) {
+    public Quiz(String title, ArrayList<Question> questions) {
+        this.title = title;
         this.questions = questions;
     }
 
     public Quiz() {
+        this.title = "";
         this.questions = new ArrayList<Question>();
+    }
+
+    public String getTitle() {
+        return this.title;
     }
 
     public ArrayList<Question> getQuestions() {
@@ -30,6 +37,10 @@ public class Quiz {
         }
 
         return q;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setQuestions(ArrayList<Question> questions) {
