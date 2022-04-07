@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Application {
@@ -24,12 +25,22 @@ public class Application {
     public static String existUser = "This is an existing Username!";
     public static String selOpt = "Select an option below:\n";
     public static String chOpt = "1. Add Question\n2. Edit Quiz\n3. Delete Quiz\n4. View Student Submissions\n5. Exit";
+    public static String error = "Error! Please enter one of the options!\n";
 
 
     public static void main(String[] args) {
+
+        // Create scanner to read input from user
         Scanner sc = new Scanner(System.in);
 
+        // Hold usernames
+        ArrayList<String> usernames = new ArrayList<String>();
 
+        // Hold users
+        ArrayList<User> users = new ArrayList<User>();
+
+        // Welcome user, give user options to create a student account, 
+        // create a teacher account, log in, or exit
         System.out.println(welcome);
         System.out.println(loginP);
         System.out.println(stuSignU);
@@ -37,72 +48,53 @@ public class Application {
         System.out.println(logIn);
         System.out.println(exit);
 
-        String user = "";
-        String pass = "";
+        // Store user's username and password
+        String userName;
+        String nPassword;
 
         int optAns = sc.nextInt();
         sc.nextLine();
-        if (optAns == 1) {
-            //Setting up students account
-            String userName;
-            System.out.println(entFname);
-            String nFullName = sc.nextLine();
-            do {
-                System.out.println(chooseUser);
-                userName = sc.nextLine();
-                if () {
-                    //existing username (deny and ask to try again.
-                    System.out.println(existUser);
-                    System.out.println(tryL);
-                }
 
-            } while ();
-            //verify existing usernames.
-            System.out.println(choosePass);
-            String nPassword = sc.nextLine();
-            System.out.println(signUpSucc);
-            //
-            User user = new User(nFullName, userName, nPassword);
-            user.addUser();
-            //adding user (need user interface)
+        // Verify user input
+        String prompt = String.format("%s\n%s\n%s\n%s\n%s\n", loginP, stuSignU, teaSignU, logIn, exit);
+        optAns = verifyInput(sc, 1, 4, prompt, optAns);
+
+        if (optAns == 1) {
+            // Setting up students account
+            User user = createAccount(sc, usernames, false);
+            
+            // adding user
+            users.add(user);
 
         } else if (optAns == 2) {
-            //setting up teachers account
-            String userName;
-            System.out.println(entFname);
-            String nFullName = sc.nextLine();
-            do {
-                System.out.println(chooseUser);
-                userName = sc.nextLine();
-                if () {
-                    //existing username (deny and ask to try again.
-                    System.out.println(existUser);
-                    System.out.println(tryL);
-                }
 
-            } while ();
-            //verify existing usernames.
-            System.out.println(choosePass);
-            String nPassword = sc.nextLine();
-            System.out.println(signUpSucc);
-            //
-            User user = new User(nFullName, userName, nPassword);
-            user.addUser();
-            // interface needed.
+            // setting up teachers account
+            User user = createAccount(sc, usernames, true);
+
+            // adding user
+            users.add(user);
 
         } else if (optAns == 3) {
+
             // Login
             System.out.println(role);
             System.out.println(roleSelection);
+
+            // Get selection: teacher, student
             int rSelection = sc.nextInt();
             sc.nextLine();
+
+            // Verify input
+            String roleS = String.format("%s\n%s\n", role, roleSelection);
+            rSelection = verifyInput(sc, 1, 2, roleS, rSelection);
+
             if (rSelection == 1) {
                 //teacher account
                 do {
                     System.out.println(username);
-                    user = sc.nextLine();
+                    userName = sc.nextLine();
                     System.out.println(password);
-                    pass = sc.nextLine();
+                    nPassword = sc.nextLine();
                     if () {
                         //verify username and password (doesn't match)
                         System.out.println(verifyAcc);
@@ -193,5 +185,56 @@ public class Application {
             System.out.println(exitPrompt);
         }
 
+    }
+
+    public static boolean loginUser(Scanner sc, )
+
+    public static User createAccount(Scanner sc, ArrayList<String> usernames, boolean isTeacher) {
+
+        String userName;
+        String password;
+
+        // Prompts user for full name
+        System.out.println(entFname);
+        String nFullName = sc.nextLine();
+
+        // Ensure user adds a unique username
+        while (true) {
+
+            // Asks user for username
+            System.out.println(chooseUser);
+            userName = sc.nextLine();
+
+            if (usernames.contains(userName)) {
+
+                //existing username, deny and ask to try again.
+                System.out.println(existUser);
+                System.out.println(tryL);
+
+            } else {
+                break;
+            }
+        }
+
+        // Get password from user
+        System.out.println(choosePass);
+        password = sc.nextLine();
+        System.out.println(signUpSucc);
+
+        return new User(nFullName, userName, password, isTeacher);
+    }
+
+    public static int verifyInput(Scanner sc, int lowerB, int upperB, String prompt, int input) {
+
+        while (input < lowerB || input > upperB) {
+
+            System.out.println(error);
+            System.out.println(tryL);
+
+            input = sc.nextInt();
+            sc.nextLine();
+        }
+
+        return input;
     }
 }
