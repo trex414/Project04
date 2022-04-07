@@ -36,3 +36,10 @@ name of the course
 menu class: alex
 user interacts, creates new objects
 Test cases alex, aakar
+
+
+
+user needs a equals function.
+teachers grade without data percistence
+students needs to be finished
+menus needs to be finished meet tonight
