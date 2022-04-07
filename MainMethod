@@ -11,6 +11,8 @@ public class MainMethod {
     public static void main(String[] args) throws IOException {
         int choiceOne;
         int choiceTwo;
+        int choiceThree;
+        int indexInfo = 0;
         String cUser = null;
         String cPassword = null;
         ArrayList<String> userInfo = new ArrayList<>();
@@ -72,35 +74,95 @@ public class MainMethod {
                     Students u = new Students(cUser,cPassword);
                     libWriter.print(u.toString());
                 }
+                int logInOrQuit;
                 System.out.println("Do you want to log in? \n 1.yes\n 2.no");
-                int logInOrQuit = sc.nextInt();
+                logInOrQuit = sc.nextInt();
                 sc.nextLine();
-                if (logInOrQuit == 2) {
+                if (logInOrQuit != 1) {
                     libReader.close();
                     libWriter.close();
                     break;
                 }
 
 
+
+
             case 2:
+                String username = null;
+                String password = null;
+                boolean permission = false;
+                int booleanB = 0;
+                
                 do {
                     System.out.println("Enter the username.");
-                    String username = sc.nextLine();
+                    username = sc.nextLine();
+                    System.out.println("Enter the password.");
+                    password = sc.nextLine();
+                    
                     for (int i = 0; i < userInfo.size(); i += 3) {
-                        if (userInfo.get(i).equals(username)) {
-                            System.out.println("Enter the password.");
-                            String password = sc.nextLine();
-                            if (userInfo.get(i + 1).equals(password)) {
+                        if (userInfo.get(i).equals(username) && userInfo.get(i + 1).equals(password)) {
                                 System.out.println("Success!");
-                            } else {
-                                System.out.println("Error! Invalid password.");
-                            }
-
-                        } else {
-                            System.out.println("Error! Invalid username.");
+                                booleanB = 1;
+                                indexInfo = i;
+                                permission = Boolean.parseBoolean(userInfo.get(i + 2));
+                                break;
                         }
                     }
-                } while (true);
+                    if (booleanB == 0) {
+                        System.out.println("Error! Please enter correct username or password.");
+                    }
+                } while (booleanB == 0);
+
+                String tOrS = null;
+                if (permission = true) {
+                    tOrS = "Teacher";
+                } else {
+                    tOrS = "Student";
+                }
+                System.out.println("Welcome! You are " + tOrS  + "\n" + "Menu\n1.Account\n2.Quiz");
+                choiceThree = sc.nextInt();
+                sc.nextLine();
+                switch (choiceThree) {
+                    case 1:
+                        int accountChoice;
+                        do {
+                            System.out.println("Account:\n 1.Modify account \n 2.Delete account");
+                            accountChoice = sc.nextInt();
+                            sc.nextLine();
+                            if (accountChoice == 1) {
+                                System.out.println("Please enter your new username.");
+                                String newUsername = sc.nextLine();
+                                System.out.println("Please enter your new password.");
+                                String newpassword = sc.nextLine();
+                                String info = libReader.readLine();
+                                while (info != null) {
+                                    userInfo.add(info);
+                                    info = libReader.readLine();
+                                }
+                                userInfo.set(indexInfo,newUsername);
+                                userInfo.set(indexInfo + 1,newpassword);
+                                System.out.println("Success!");
+                            } else if (accountChoice == 2) {
+                                String info = libReader.readLine();
+                                while (info != null) {
+                                    userInfo.add(info);
+                                    info = libReader.readLine();
+                                }
+                                userInfo.remove(indexInfo);
+                                userInfo.remove(indexInfo + 1);
+                                userInfo.remove(indexInfo + 2);
+                                System.out.println("Success!");
+                            }
+                            
+                         } while(accountChoice != 1 && accountChoice != 2);
+                        
+                    case 2:
+                        // todo: quiz course
+                        
+                }
+
+
+
 
 
 
