@@ -25,9 +25,9 @@ public class Application {
     public static String signUpSucc = "You are Signed-Up Successfully!";
     public static String existUser = "This is an existing Username!";
     public static String selOpt = "Select an option below:\n";
-    public static String chOpt = "1. Add Quiz\n2. Edit Quiz\n3. Delete Quiz\n4. View Student Submissions\n5. View Graded Quizes\n 6. Exit";
+    public static String chOpt = "1. Add Quiz\n2. Edit Quiz\n3. Delete Quiz\n4. View Student Submissions\n5. View Graded Quizes\n6. Exit";
     public static String error = "Error! Please enter one of the options!\n";
-    public static String courseS = "1. Create course/n2. Join course";
+    public static String courseS = "1. Create course\n2. Join course\n";
     public static String enterCourse = "Enter the name of the course: ";
     public static String enterUser = "Enter the student's username";
     public static String enterQuiz = "Enter the quiz name";
