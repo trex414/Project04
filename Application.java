@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// TREY GOT THIS
+// GRAYSON GOT THIS
 public class Application {
     public static String welcome = "Welcome to Management System!";
     public static String loginP = "Login Options:\n";
