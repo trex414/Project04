@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.Timestamp;
 
-public class Student extends User {
+public class Students extends User {
 
-    public Students(String name, String username, String password) {
+    public Students(String name, String username, String password, boolean teacherPermission) {
         super(name, username, password, false);
     }
 
