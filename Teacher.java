@@ -1,10 +1,11 @@
 import java.io.*;
 import java.util.ArrayList;
 
-public class Teachers extends User {
+public class Teacher extends User {
     private ArrayList<Course> courses = new ArrayList<Course>();
-    public Teachers(String username, String password) {
-        super(username, password, true);
+
+    public Teacher(String name, String username, String password, boolean teacherPermission) {
+        super(name, username, password, true);
     }
 
     /** do we want to make each teacher have all their quizzes?

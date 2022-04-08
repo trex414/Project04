@@ -24,10 +24,12 @@ public class Application {
     public static String signUpSucc = "You are Signed-Up Successfully!";
     public static String existUser = "This is an existing Username!";
     public static String selOpt = "Select an option below:\n";
-    public static String chOpt = "1. Add Quiz\n2. Edit Quiz\n3. Delete Quiz\n4. View Student Submissions\n5. Exit";
+    public static String chOpt = "1. Add Quiz\n2. Edit Quiz\n3. Delete Quiz\n4. View Student Submissions\n5. View Graded Quizes\n 6. Exit";
     public static String error = "Error! Please enter one of the options!\n";
     public static String courseS = "1. Create course/n2. Join course";
     public static String enterCourse = "Enter the name of the course: ";
+    public static String enterUser = "Enter the student's username";
+    public static String enterQuiz = "Enter the quiz name";
 
     public static void main(String[] args) {
 
@@ -39,6 +41,8 @@ public class Application {
 
         // Hold users
         ArrayList<User> users = new ArrayList<User>();
+
+        ArrayList<Course> courses = new ArrayList<Course>();
 
         while (true) {
 
@@ -116,13 +120,147 @@ public class Application {
 
                     } while (!didLogin);
 
+                    int courseOp;
+
                     // after they login
-                    System.out.println();
-
                     System.out.println(selOpt);
-                    System.out.println(chOpt);
+                    System.out.println(courseS);
 
-                    // Options: 1 add quiz, 2 edit quiz, 3 delete quiz, 4 view submissions, 5 exit
+                    courseOp = sc.nextInt();
+                    sc.nextLine();
+
+                    courseOp = verifyInput(sc, 1, 2, String.format("%s%s\n", selOpt, courseS), courseOp);
+
+                    String courseName = "";
+                    boolean isNewClass = true;
+                    Course course = null;
+
+                    switch (courseOp) {
+                        
+                        // Create a course
+                        case 1:
+
+                            // Ensures that the class has unique name
+                            while (true) {
+
+                                System.out.println(enterCourse);
+                                courseName = sc.nextLine();
+
+                                for (int i = 0; i < courses.size(); i++) {
+
+                                    if (courses.get(i).getName().equals(courseName)) {
+                                        isNewClass = false;
+                                    }
+                                }
+
+                                if (isNewClass) {
+                                    break;
+                                }
+
+                                System.out.println("Error\n");
+                            }
+
+                            // Create new course 
+                            course = new Course(courseName);
+                            courses.add(course);
+
+                        // Joined a course
+                        case 2:
+
+                            // If they have not created 
+                            while (course == null) {
+
+                                System.out.println(enterCourse);
+                                courseName = sc.nextLine();
+
+                                for (int i = 0; i < courses.size(); i++) {
+
+                                    if (courses.get(i).getName().equals(courseName)) {
+                                        course = courses.get(i);
+                                        break;
+                                    }
+                                }
+
+                                System.out.println("That course does not exist!");
+                            }
+
+                            // Now we are in a course
+                            // Options: 1 add quiz, 2 edit quiz, 3 delete quiz, 4 view submissions, 5 grade quizzes, 6 exit
+                            System.out.println(selOpt);
+                            System.out.println(chOpt);
+                            
+                            int inCourseOp = sc.nextInt();
+                            sc.nextLine();
+
+                            inCourseOp = verifyInput(sc, 1, 6, String.format("%s%s\n", selOpt, chOpt), inCourseOp);
+
+                            switch (inCourseOp) {
+
+                                // Add a quiz
+                                case 1:
+                                    System.out.println();
+                                    // Trey's got this
+
+                                // Edit a quiz
+                                case 2:
+                                    // Trey's got this
+
+                                // Delete a quiz
+                                case 3:
+                                    // Trey's got this
+
+                                // View submissions
+                                case 4:
+
+                                    boolean isUser = false;
+                                    String user = "";
+                                    while (!isUser) {
+
+                                        System.out.println(enterUser);
+                                        user = sc.nextLine();
+
+                                        for (int i = 0; i < users.size(); i++) {
+
+                                            if (users.get(i).getUsername().equals(user)) {
+                                                isUser = true;
+                                            }
+                                        }
+
+                                        if (!isUser) {
+                                            System.out.println("Error! User does not exist!");
+                                        }
+                                    }
+
+                                    String quizName = "";
+                                    boolean isQuiz = false;
+                                    while (!isQuiz) {
+
+                                        System.out.println(enterQuiz);
+                                        user = sc.nextLine();
+
+                                        for (int i = 0; i < course.getQuizzes().size(); i++) {
+
+                                            if (course.getQuizzes().get(i).getName().equals(quizName)) {
+                                                isQuiz = true;
+                                            }
+                                        }
+
+                                        if (!isQuiz) {
+                                            System.out.println("Error! Quiz does not exist!");
+                                        }
+                                    }
+
+                                    // Now, we have the quiz name and the username
+                                    
+
+                                // Grade quizzes
+                                case 5:
+                                    
+
+                                // Exit
+                                case 6:
+                            }
+                     }
 
                 } else if (rSelection == 2) {
 
@@ -267,5 +405,19 @@ public class Application {
         }
 
         return input;
+    }
+
+    public static boolean isInList(Object o, ArrayList<Object> list) {
+
+        boolean isIn = false;
+
+        for (int i = 0; i < list.size(); i++) {
+
+            if (list.get(i) == o) {
+                isIn = true;
+            }
+        }
+
+        return isIn;
     }
 }

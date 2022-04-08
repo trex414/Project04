@@ -5,6 +5,7 @@ public class Quiz {
 
     private String name;
     private ArrayList<Question> questions;
+    boolean isFinished;
 
     public Quiz(String name, ArrayList<Question> questions) {
         this.name = name;
@@ -22,6 +23,10 @@ public class Quiz {
 
     public ArrayList<Question> getQuestions() {
         return this.questions;
+    }
+
+    public boolean getFinished() {
+        return this.isFinished;
     }
 
     // Allows user to get a question based on the prompt
@@ -45,6 +50,10 @@ public class Quiz {
 
     public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
+    }
+
+    public void setFinished(boolean isFinished) {
+        this.isFinished = isFinished;
     }
 
     public void addQuestion(Question q) {
