@@ -30,6 +30,8 @@ public class Application {
     public static String enterCourse = "Enter the name of the course: ";
     public static String enterUser = "Enter the student's username";
     public static String enterQuiz = "Enter the quiz name";
+    public static String studentOp = "1. Take quiz\n2. View grades\n3. Exit";
+    // Take a quiz, view grades, exit
 
     public static void main(String[] args) {
 
@@ -97,9 +99,11 @@ public class Application {
                 String roleS = String.format("%s\n%s\n", role, roleSelection);
                 rSelection = verifyInput(sc, 1, 2, roleS, rSelection);
 
-                boolean didLogin = false;
+                int didLogin = -1;
 
                 if (rSelection == 1) {
+
+                    Teacher t;
 
                     //teacher account
                     do {
@@ -111,14 +115,18 @@ public class Application {
 
                         didLogin = loginUser(sc, userName, nPassword, users);
 
-                        if (!didLogin) {
+                        if (didLogin != -1) {
 
                             //verify username and password (doesn't match)
                             System.out.println(verifyAcc);
                             System.out.println(tryL);
                         }
 
-                    } while (!didLogin);
+                    } while (didLogin != -1);
+
+                    t = (Teacher) users.get(didLogin);
+
+                    System.out.println(logSuccess);
 
                     int courseOp;
 
@@ -212,6 +220,9 @@ public class Application {
                                 // View submissions
                                 case 4:
 
+                                    Students s = null;
+                                    Quiz q = null;
+
                                     boolean isUser = false;
                                     String user = "";
                                     while (!isUser) {
@@ -223,6 +234,7 @@ public class Application {
 
                                             if (users.get(i).getUsername().equals(user)) {
                                                 isUser = true;
+                                                s = (Students) users.get(i);
                                             }
                                         }
 
@@ -240,8 +252,9 @@ public class Application {
 
                                         for (int i = 0; i < course.getQuizzes().size(); i++) {
 
-                                            if (course.getQuizzes().get(i).getName().equals(quizName)) {
+                                            if (course.getQuiz(i).getName().equals(quizName)) {
                                                 isQuiz = true;
+                                                q = course.getQuiz(i);
                                             }
                                         }
 
@@ -251,20 +264,34 @@ public class Application {
                                     }
 
                                     // Now, we have the quiz name and the username
-                                    
+                                    ArrayList<String> responses = s.getQuizSubmission(q);
+
+                                    ArrayList<Question> questions = q.getQuestions();
+
+                                    for (int i = 0; i < responses.size(); i++) {
+                                        System.out.println(questions.get(i).getPrompt());
+                                        for (int j = 0; j < questions.get(i).getChoices().size(); j++) {
+                                            System.out.println(questions.get(i).getChoice(i));
+                                        }
+                                        System.out.println(responses.get(i));
+                                    }
+
 
                                 // Grade quizzes
                                 case 5:
+                                
                                     
-
                                 // Exit
                                 case 6:
+
+                                    System.out.println(exitPrompt);
+                                    return;
                             }
                      }
 
                 } else if (rSelection == 2) {
 
-                    //teacher account
+                    //student account
                     do {
 
                         System.out.println(username);
@@ -274,15 +301,43 @@ public class Application {
 
                         didLogin = loginUser(sc, userName, nPassword, users);
 
-                        if (!didLogin) {
+                        if (didLogin != -1) {
 
                             //verify username and password (doesn't match)
                             System.out.println(verifyAcc);
                             System.out.println(tryL);
                         }
 
-                    } while (!didLogin);
+                    } while (didLogin != -1);
 
+                    System.out.println(logSuccess);
+
+                    System.out.println(selOpt);
+                    System.out.println(studentOp);
+
+                    // Option 1 quiz, 2 view grades, 3 exit
+                    int stuOp = sc.nextInt();
+                    sc.nextLine();
+
+                    stuOp = verifyInput(sc, 1, 3, String.format("%s%s\n", selOpt, studentOp), stuOp);
+
+                    switch (stuOp) {
+
+                        // Take a quiz
+                        case 1:
+                            
+
+                        // View grades
+                        case 2:
+                        // Alex got this
+
+                        // Exit
+                        case 3:
+                        // Carrie got this
+                    }
+
+
+                    
                     //student account
                     // do {
                     //     System.out.println(username);
@@ -325,9 +380,7 @@ public class Application {
                         // }
 
                 }
-
                 // after they login
-
 
             } else {
 
@@ -338,14 +391,14 @@ public class Application {
         }
     }
 
-    public static boolean loginUser(Scanner sc, String username, String password, ArrayList<User> users) {
+    public static int loginUser(Scanner sc, String username, String password, ArrayList<User> users) {
 
-        boolean didLogin = false;
+        int didLogin = -1;
 
         for (int i = 0; i < users.size(); i++) {
 
             if (users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) {
-                didLogin = true;
+                didLogin = i;
                 break;
             }
         }

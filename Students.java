@@ -5,8 +5,19 @@ import java.sql.Timestamp;
 
 public class Students extends User {
 
+    // Holds the quizzes matched with the responses for that quiz
+    Hashtable<Quiz, ArrayList<String>> submissions = new Hashtable<Quiz, ArrayList<String>>();
+
     public Students(String name, String username, String password, boolean teacherPermission) {
         super(name, username, password, false);
+    }
+
+    public Hashtable<Quiz, ArrayList<String>> getSubmissions() {
+        return this.submissions;
+    }
+
+    public ArrayList<String> getQuizSubmission(Quiz q) {
+        return submissions.get(q);
     }
 
     public ArrayList<String> takeQuiz(Quiz quiz, Scanner scan) {
@@ -43,8 +54,9 @@ public class Students extends User {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("Submitted!\n" + dateFormat.format(timestamp));
+
+        submissions.put(quiz, responses);
+
         return responses;
     }
-
-
 }

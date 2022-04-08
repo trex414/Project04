@@ -25,6 +25,7 @@ public class Teacher extends User {
     public void addTeacherCourse(Course course) {
         courses.add(course);
     }
+    
     // adds questions to a quiz and then adds that quiz to a course
     public String addQuiz(String course, String quizName, ArrayList<String> promt, ArrayList<String> answers, int answer) {
         ArrayList<Question> questions = new ArrayList<>();
