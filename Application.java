@@ -47,6 +47,8 @@ public class Application {
 
         ArrayList<Course> courses = new ArrayList<Course>();
 
+        Manager m = new Manager(courses, users);
+
         while (true) {
 
             // Welcome user, give user options to create a student account, 
@@ -78,6 +80,7 @@ public class Application {
                 
                 // adding user
                 users.add(user);
+                m.addUser(user);
 
                 System.out.println();
                 System.out.println(usernames.size());
@@ -105,7 +108,8 @@ public class Application {
                 String roleS = String.format("%s\n%s\n", role, roleSelection);
                 rSelection = verifyInput(sc, 1, 2, roleS, rSelection);
 
-                int didLogin = -1;
+                //int didLogin = -1;
+                boolean didLogIn = false;
 
                 if (rSelection == 1) {
 
@@ -119,18 +123,19 @@ public class Application {
                         System.out.println(password);
                         nPassword = sc.nextLine();
 
-                        didLogin = loginUser(sc, userName, nPassword, users);
+                        //didLogin = loginUser(sc, userName, nPassword, users);
+                        didLogIn = m.isUser(userName, nPassword);
 
-                        if (didLogin != -1) {
+                        if (!didLogIn) {
 
                             //verify username and password (doesn't match)
                             System.out.println(verifyAcc);
                             System.out.println(tryL);
                         }
 
-                    } while (didLogin != -1);
+                    } while (!didLogIn);
 
-                    t = (Teacher) users.get(didLogin);
+                    t = (Teacher) m.getUser(userName, nPassword);
 
                     System.out.println(logSuccess);
 
@@ -138,7 +143,7 @@ public class Application {
 
                     // after they login
                     System.out.println(selOpt);
-                    System.out.println(courseS);
+                    System.out.printf(courseS);
 
                     courseOp = sc.nextInt();
                     sc.nextLine();
@@ -306,20 +311,21 @@ public class Application {
                         System.out.println(password);
                         nPassword = sc.nextLine();
 
-                        didLogin = loginUser(sc, userName, nPassword, users);
+                        //didLogin = loginUser(sc, userName, nPassword, users);
+                        didLogIn = m.isUser(userName, nPassword);
 
-                        if (didLogin != -1) {
+                        if (!didLogIn) {
 
                             //verify username and password (doesn't match)
                             System.out.println(verifyAcc);
                             System.out.println(tryL);
                         }
 
-                    } while (didLogin != -1);
+                    } while (!didLogIn);
 
                     System.out.println(logSuccess);
 
-                    s = (Students) users.get(didLogin);
+                    s = (Students) m.getUser(userName, nPassword);
 
                     String courseName = "";
 

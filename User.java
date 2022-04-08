@@ -39,6 +39,7 @@ public class User {
     public boolean isTeacherPermission() {
         return teacherPermission;
     }
+
     public String toString() {
         String str = "";
         str = username + "\n" + password + "\n" + teacherPermission + '\n';

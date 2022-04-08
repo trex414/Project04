@@ -23,6 +23,21 @@ public class Manager {
         return this.users.get(i);
     }
 
+    public User getUser(String username, String password) {
+
+        User u = null;
+
+        for (int i = 0; i < users.size(); i++) {
+
+            if (users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) {
+                u = users.get(i);
+                break;
+            }
+        }
+
+        return u;
+    }
+
     public Course getCourse(int i) {
         return this.courses.get(i);
     }
@@ -33,6 +48,23 @@ public class Manager {
 
     public void setUsers(ArrayList<User> users) {
         this.users = users;
+    }
+
+    public boolean isUser(String username, String password) {
+        
+        boolean isU = false;
+
+        for (int i = 0; i < users.size(); i++) {
+            // System.out.println(users.get(i).getUsername());
+            // System.out.println(username);
+            // System.out.println(users.get(i).getPassword());
+            // System.out.println(password);
+            if (users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) {
+                isU = true;
+            }
+        }
+
+        return isU;   
     }
 
     public boolean addUser(User user) {
@@ -88,6 +120,4 @@ public class Manager {
         
         return doesContain;
     }
-
-
 }
