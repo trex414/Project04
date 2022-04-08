@@ -342,7 +342,7 @@ public class Application {
                                         }
                                     }
 
-                                    String quizName = "";
+                                    quizName = "";
                                     boolean isQuiz = false;
                                     while (!isQuiz) {
 
