@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// TREY GOT THIS
 public class Application {
     public static String welcome = "Welcome to Management System!";
     public static String loginP = "Login Options:\n";
@@ -48,14 +49,13 @@ public class Application {
 
         while (true) {
 
-
             // Welcome user, give user options to create a student account, 
             // create a teacher account, log in, or exit
-            System.out.println(welcome);
-            System.out.println(loginP);
-            System.out.println(stuSignU);
-            System.out.println(teaSignU);
-            System.out.println(logIn);
+            System.out.print(welcome);
+            System.out.print(loginP);
+            System.out.print(stuSignU);
+            System.out.print(teaSignU);
+            System.out.print(logIn);
             System.out.println(exit);
 
             // Store user's username and password
@@ -69,6 +69,8 @@ public class Application {
             String prompt = String.format("%s\n%s\n%s\n%s\n%s\n", loginP, stuSignU, teaSignU, logIn, exit);
             optAns = verifyInput(sc, 1, 4, prompt, optAns);
 
+            Course course = null;
+
             if (optAns == 1) {
 
                 // Setting up students account
@@ -76,6 +78,10 @@ public class Application {
                 
                 // adding user
                 users.add(user);
+
+                System.out.println();
+                System.out.println(usernames.size());
+                System.out.println();
 
             } else if (optAns == 2) {
 
@@ -141,7 +147,6 @@ public class Application {
 
                     String courseName = "";
                     boolean isNewClass = true;
-                    Course course = null;
 
                     switch (courseOp) {
                         
@@ -279,7 +284,7 @@ public class Application {
 
                                 // Grade quizzes
                                 case 5:
-                                
+                                    // AAKAR GOT THIS
                                     
                                 // Exit
                                 case 6:
@@ -290,6 +295,8 @@ public class Application {
                      }
 
                 } else if (rSelection == 2) {
+
+                    Students s;
 
                     //student account
                     do {
@@ -312,6 +319,29 @@ public class Application {
 
                     System.out.println(logSuccess);
 
+                    s = (Students) users.get(didLogin);
+
+                    String courseName = "";
+
+                    course = null;
+                    
+                    // If they have not created 
+                    while (course == null) {
+
+                        System.out.println(enterCourse);
+                        courseName = sc.nextLine();
+
+                        for (int i = 0; i < courses.size(); i++) {
+
+                            if (courses.get(i).getName().equals(courseName)) {
+                                course = courses.get(i);
+                                break;
+                            }
+                        }
+
+                        System.out.println("That course does not exist!");
+                    }
+
                     System.out.println(selOpt);
                     System.out.println(studentOp);
 
@@ -321,11 +351,36 @@ public class Application {
 
                     stuOp = verifyInput(sc, 1, 3, String.format("%s%s\n", selOpt, studentOp), stuOp);
 
+                    Quiz q = null;
+
                     switch (stuOp) {
 
                         // Take a quiz
                         case 1:
-                            
+
+                            System.out.println(enterQuiz);
+                            String quizName = sc.nextLine();
+
+                            boolean isQuiz = false;
+                            while (!isQuiz) {
+
+                                System.out.println(enterQuiz);
+                                quizName = sc.nextLine();
+
+                                for (int i = 0; i < course.getQuizzes().size(); i++) {
+
+                                    if (course.getQuiz(i).getName().equals(quizName)) {
+                                        isQuiz = true;
+                                        q = course.getQuiz(i);
+                                    }
+                                }
+
+                                if (!isQuiz) {
+                                    System.out.println("Error! Quiz does not exist!");
+                                }
+                            }
+
+                            s.takeQuiz(q, sc);
 
                         // View grades
                         case 2:
@@ -335,50 +390,6 @@ public class Application {
                         case 3:
                         // Carrie got this
                     }
-
-
-                    
-                    //student account
-                    // do {
-                    //     System.out.println(username);
-                    //     user = sc.nextLine();
-                    //     System.out.println(password);
-                    //     pass = sc.nextLine();
-                    //     if () {
-                    //         //verify username and password (doesn't match)
-                    //         System.out.println(verifyAcc);
-                    //         System.out.println(tryL);
-                    //     } else if () {
-                    //         //verify whether its stu account or teacher's account (not sure)
-                    //         System.out.println(verifUser);
-                    //         System.out.println(tryL);
-
-                    //     } else {
-                    //         // if everything works matchs
-                    //         System.out.println(logSuccess);
-                    //         // continue for selection add quiz/ edit / delete/ view sub / Exit
-                    //         System.out.println(selOpt);
-                    //         System.out.println(chOpt);
-                    //         int optSel = sc.nextInt();
-                    //         sc.nextLine();
-                    //         if (optSel == 1) {
-                    //             //add quiz...
-
-                    //         } else if (optSel == 2) {
-                    //             //edit...
-
-                        //     } else if (optSel == 3) {
-                        //         //delete...
-
-                        //     } else if (optSel == 4) {
-                        //         //view submissions...
-
-                        //     } else {
-                        //         //exit
-                        //         System.out.println(exitPrompt);
-                        //     }
-                        // }
-
                 }
                 // after they login
 
@@ -438,6 +449,7 @@ public class Application {
         password = sc.nextLine();
         System.out.println(signUpSucc);
 
+        usernames.add(userName);
 
         if (isTeacher) {
             return new Teacher(nFullName, userName, password, isTeacher);
