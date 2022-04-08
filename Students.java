@@ -5,15 +5,12 @@ import java.sql.Timestamp;
 
 public class Students extends User {
 
-    private ArrayList<String> responses;
-
-    public Students(String name, String username, String password, boolean teacherPermission, ArrayList<String> responses) {
+    public Students(String name, String username, String password, boolean teacherPermission) {
         super(name, username, password, false);
-        this.responses = responses;
     }
 
-    public boolean takeQuiz(Quiz quiz, Scanner scan) {
-        boolean completed = false;
+    public ArrayList<String> takeQuiz(Quiz quiz, Scanner scan) {
+        ArrayList<String> responses;
         int responseOption;
         Question currentQuestion;
         for (int i = 0; i < quiz.getQuestions.size(); i++) {
@@ -30,7 +27,6 @@ public class Students extends User {
                     "\n1. Submit\n2. Change an answer");
             int submitOption = scan.nextInt();
             if (submitOption == 1) {
-                completed = true;
                 break;
             } else if (submitOption == 2) {
                 System.out.println("Which question (1-" + quiz.getQuestions.size() + ") would you like to redo?");
@@ -47,7 +43,7 @@ public class Students extends User {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("Submitted!\n" + dateFormat.format(timestamp));
-        return completed;
+        return responses;
     }
 
 
