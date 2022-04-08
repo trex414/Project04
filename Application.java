@@ -216,18 +216,107 @@ public class Application {
 
                                 // Add a quiz
                                 case 1:
-                                    System.out.println();
-                                    // Trey's got this
+                                    ArrayList<String> questionsS = new ArrayList<>();
+                                    ArrayList<String> options = new ArrayList<>();
+                                    ArrayList<Integer> answers = new ArrayList<>();
+                                    String optionsForQuestion = "";
+                                    // ask for the name of the quiz
+                                    System.out.println("What would you like to name the quiz?");
+                                    String quizName = sc.nextLine();
+                                    System.out.println("How many questions is the quiz?");
+                                    int questionNum = sc.nextInt();
+                                    sc.nextLine();
+                                    // use the amount of questions they want to create that many questions
+                                    for (int i = 1; i <= questionNum; i++) {
+                                        System.out.println("What is your question " + i + "?");
+                                        String question = sc.nextLine();
+                                        System.out.println("How many options will you have?");
+                                        int optionNum = sc.nextInt();
+                                        // use the optionNum to get as many options they want
+                                        for (int j = 1; j <= optionNum; j++) {
+                                            System.out.println("What is your option " + i + "?");
+                                            String option = sc.nextLine();
+                                            optionsForQuestion = optionsForQuestion + i + option + "\n";
 
-                                // Edit a quiz
+                                        }
+                                        System.out.println("which one is the answer?\n " +
+                                                "please use the number of the option");
+                                        System.out.println(optionsForQuestion);
+                                        int answerNum = sc.nextInt();
+                                        sc.nextLine();
+                                        questionsS.add(question);
+                                        options.add(optionsForQuestion);
+                                        answers.add(answerNum);
+                                    }
+                                    System.out.println(t.addQuiz(courseName,quizName, questionsS, options, answers));
+                                    // Edit a quiz
+                                    
                                 case 2:
-                                    // Trey's got this
+                                    // all the options they can choose from in a do while loop
+                                    int editOption;
+                                    do {
+                                        System.out.println("What would you like to edit?");
+                                        System.out.println("""
+                                                1. Quiz Name
+                                                2. Quiz question
+                                                3. Questions new choices
+                                                4. Leave edit options""");
+                                        editOption = sc.nextInt();
+                                        sc.nextLine();
+                                        switch (editOption) {
+                                            // quiz name
+                                            case 1:
+                                                System.out.println("What is the name of the quiz?");
+                                                String oldQuizName = sc.nextLine();
+                                                System.out.println("What is the new quiz name?");
+                                                String newQuizName = sc.nextLine();
+                                                System.out.println(t.modifyQuizName(courseName, oldQuizName, newQuizName));
+                                            // Quiz question
+                                            case 2:
+                                                System.out.println("What is the name of the quiz?");
+                                                quizName = sc.nextLine();
+                                                System.out.println("What question do you want to change?");
+                                                String question = sc.nextLine();
+                                                System.out.println("What is the new question?");
+                                                String newQuestion = sc.nextLine();
+                                                System.out.println(t.modifyQuizPrompt
+                                                        (courseName, quizName, question, newQuestion));
 
-                                // Delete a quiz
+                                            // Questions choices
+                                            case 3:
+                                                optionsForQuestion = "";
+                                                System.out.println("What is the name of the quiz?");
+                                                quizName = sc.nextLine();
+                                                System.out.println("What question do you want to change?");
+                                                question = sc.nextLine();
+                                                System.out.println("How many options will you have?");
+                                                int optionNum = sc.nextInt();
+                                                // use the optionNum to get as many options they want
+                                                for (int j = 1; j <= optionNum; j++) {
+                                                    System.out.println("What is your option " + j + "?");
+                                                    String option = sc.nextLine();
+                                                    optionsForQuestion = optionsForQuestion + j + option + "\n";
+
+                                                }
+                                                System.out.println("which one is the answer?\n " +
+                                                        "please use the number of the option");
+                                                System.out.println(optionsForQuestion);
+                                                int answerNum = sc.nextInt();
+                                                sc.nextLine();
+
+                                                System.out.println(t.modifyQuizChoices
+                                                        (courseName, quizName, question, optionsForQuestion, answerNum));
+                                                // exit
+                                            case 4:
+                                                break;
+                                        }
+                                    } while (editOption != 5);
+                                    // Delete a quiz
                                 case 3:
-                                    // Trey's got this
-
-                                // View submissions
+                                    System.out.println("What is the name of the quiz?");
+                                    quizName = sc.nextLine();
+                                    System.out.println(t.removeQuiz(courseName, quizName));
+                                    // View submissions
                                 case 4:
 
                                     Students s = null;
