@@ -20,6 +20,8 @@ public class Students extends User {
         return submissions.get(q);
     }
 
+    
+
     public ArrayList<String> takeQuiz(Quiz quiz, Scanner scan) {
         ArrayList<String> responses;
         int responseOption;
