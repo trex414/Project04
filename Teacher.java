@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Teacher extends User {
     private ArrayList<Course> courses = new ArrayList<Course>();
@@ -25,65 +26,123 @@ public class Teacher extends User {
     public void addTeacherCourse(Course course) {
         courses.add(course);
     }
-    
+
     // adds questions to a quiz and then adds that quiz to a course
-    public String addQuiz(String course, String quizName, ArrayList<String> promt, ArrayList<String> answers, int answer) {
+    public String addQuiz(String course, String quizName, ArrayList<String> questionsS, ArrayList<String> options,
+                          ArrayList<Integer> answers) {
         ArrayList<Question> questions = new ArrayList<>();
         for (int k = 0; k < courses.size(); k++) {
-                for (int i = 0; i < promt.size(); i++) {
-                    questions.set(i, new Question(promt.get(i), answers.get(answer), answers));
-                }
-                if (course.equalsIgnoreCase(courses.get(k).getName())) {
-                    courses.get(k).addQuiz(new Quiz(quizName, questions));
-                }
-                return "it worked";
+            for (int i = 0; i < questionsS.size(); i++) {
+                ArrayList<String> optionsS = new ArrayList<>();
+                // splits the string of options in the arrayList
+                String[] placement = (options.get(i).split("\n"));
+                // adds each one into a String[]
+                optionsS.addAll(Arrays.asList(placement));
+                questions.set(i, new Question(questionsS.get(i), options.get(answers.get(k)), optionsS));
             }
+            if (course.equalsIgnoreCase(courses.get(k).getName())) {
+                courses.get(k).addQuiz(new Quiz(quizName, questions));
+            }
+            return "it worked";
+        }
         return "it did not work";
     }
     // modification 1 for quizzes
-    public String modifyQuizName(String course, int quizName, String newQuizName) {
-        for (int i = 0; i < courses.size(); i++)
-            if (course.equalsIgnoreCase(courses.get(i).getName())) {
-                    courses.get(i).getQuiz(quizName).setName(newQuizName);
-
-                return "Quiz Name updated";
+    public String modifyQuizName(String course, String quizName, String newQuizName) {
+        for (Course cours : courses)
+            if (course.equalsIgnoreCase(cours.getName())) {
+                for (int j = 0; j < cours.getQuizzes().size(); j++) {
+                    if (quizName.equalsIgnoreCase(cours.getQuizzes().get(j).getName())) {
+                            cours.getQuizzes().get(j).setName(newQuizName);
+                            return "The old name was: " + quizName + "\n The new name is: " +
+                                    cours.getQuizzes().get(j).getName();
+                    }
+                }
             }
-        return "Error. No quiz in this course by that name";
+        return "Error. No quiz in this course by that name.";
     }
     // modification 2 for quizzes
-    public String modifyQuizPrompt(String course, int quizName, String prompt, String newprompt) {
+    public String modifyQuizPrompt(String course, String quizName, String question, String newprompt) {
+        // check for the course
         for (int i = 0; i < courses.size(); i++)
             if (course.equalsIgnoreCase(courses.get(i).getName())) {
-                courses.get(i).getQuiz(quizName).getQuestion(prompt).setPrompt(newprompt);
-                return "Question prompt updated";
+                // check for the quiz
+                for (int j = 0; j < courses.get(i).getQuizzes().size(); j++) {
+                    if (quizName.equalsIgnoreCase(courses.get(i).getQuizzes().get(j).getName())) {
+                        // check for the question
+                        for (int k = 0; k < courses.get(i).getQuizzes().get(j).getQuestions().size(); k++) {
+                            if (question.equalsIgnoreCase
+                                    (courses.get(i).getQuizzes().get(j).getQuestions().get(k).getPrompt())) {
+                                courses.get(i).getQuizzes().get(j).getQuestions().get(k).setPrompt(newprompt);
+                                return "The old question was: " + question + "\n The new question is: " +
+                                        courses.get(i).getQuizzes().get(j).getQuestions().get(k).getPrompt();
+                            }
+                        }
+                    }
+                }
             }
-        return "Error. No quiz in this course by that name";
+        return "Error. No quiz question in this course by that name";
     }
     // modification 3 for quizzes
-    public String modifyQuizChoices(String course, int quizName,String prompt, ArrayList<String> choices) {
-        for (int i = 0; i < courses.size(); i++)
+    public String modifyQuizChoices(String course, String quizName,String question, String choices, int answer) {
+
+        for (int i = 0; i < courses.size(); i++) {
             if (course.equalsIgnoreCase(courses.get(i).getName())) {
-                courses.get(i).getQuiz(quizName).getQuestion(prompt).setChoices(choices);
-                return "Question choices updated";
+                // check for the quiz
+                for (int j = 0; j < courses.get(i).getQuizzes().size(); j++) {
+                    if (quizName.equalsIgnoreCase(courses.get(i).getQuizzes().get(j).getName())) {
+                        // check for the question
+                        for (int k = 0; k < courses.get(i).getQuizzes().get(j).getQuestions().size(); k++) {
+                            ArrayList<String> optionsS = new ArrayList<>();
+                            if (question.equalsIgnoreCase
+                                    (courses.get(i).getQuizzes().get(j).getQuestions().get(k).getPrompt())) {
+                                String[] placement = (choices.split("\n"));
+                                // adds each one into a String[]
+                                optionsS.addAll(Arrays.asList(placement));
+                                courses.get(i).getQuizzes().get(j).getQuestions().get(k).setChoices(optionsS);
+                                modifyQuizAnswer(course, quizName, question, answer);
+                                return "The new options are: " +
+                                        courses.get(i).getQuizzes().get(j).getQuestions().get(k).getChoices();
+                            }
+                        }
+                    }
+                }
             }
+        }
         return "Error. No quiz in this course by that name";
     }
     // modification 4 for quizzes
-    public String modifyQuizAnswer(String course, int quizName,String prompt, String answer) {
-        for (int i = 0; i < courses.size(); i++)
+    public void modifyQuizAnswer(String course, String quizName,String question, int answer) {
+        for (int i = 0; i < courses.size(); i++) {
             if (course.equalsIgnoreCase(courses.get(i).getName())) {
-                courses.get(i).getQuiz(quizName).getQuestion(prompt).setAnswer(answer);
-                return "Question answer updated";
+                // check for the quiz
+                for (int j = 0; j < courses.get(i).getQuizzes().size(); j++) {
+                    if (quizName.equalsIgnoreCase(courses.get(i).getQuizzes().get(j).getName())) {
+                        // check for the question
+                        for (int k = 0; k < courses.get(i).getQuizzes().get(j).getQuestions().size(); k++) {
+                            if (question.equalsIgnoreCase
+                                    (courses.get(i).getQuizzes().get(j).getQuestions().get(k).getPrompt())) {
+                                courses.get(i).getQuizzes().get(j).getQuestions().get(k).setAnswer
+                                        (courses.get(i).getQuizzes().get(j).getQuestions().get(k).getChoices().get(answer));
+                            }
+                        }
+                    }
+                }
             }
-        return "Error. No quiz in this course by that name";
+        }
     }
     // removes quiz from course
-    public String removeQuiz(String course) {
-        for (int i = 0; i < courses.size(); i++)
+    public String removeQuiz(String course, String quizName) {
+        for (int i = 0; i < courses.size(); i++) {
             if (course.equalsIgnoreCase(courses.get(i).getName())) {
-                courses.get(i).removeQuiz(courses.get(i).getQuiz(i));
-                return "Removed Quiz";
+                for (int j = 0; j < courses.get(i).getQuizzes().size(); j++) {
+                    if (quizName.equalsIgnoreCase(courses.get(i).getQuizzes().get(j).getName())) {
+                        courses.get(i).removeQuiz(courses.get(i).getQuizzes().get(j));
+                        return "Removed Quiz: " + quizName;
+                    }
+                }
             }
+        }
         return "Error. No quiz in this course by that name";
     }
     // studentname = filename, need a String of what number quiz it is
@@ -119,7 +178,7 @@ public class Teacher extends User {
      * or add all the graded quizes to their own file for each quiz
      * @return
      */
-    
+
     // this will send each question to the main to grade
     public ArrayList<String> PrintQuestionQuiz(String fileName, String quizName, String questionNum) {
         // calls the quiz needed version
@@ -143,7 +202,7 @@ public class Teacher extends User {
         }
         return question;
     }
-    
+
     // with the grades for each question this will print the graded quiz to a file
     public String gradeQuiz(String fileName, String quizName, String writingFile, ArrayList<Integer> grades,
                             String student) {
@@ -168,7 +227,7 @@ public class Teacher extends User {
                 } else {
                     pw1.println(student1.get(i));
                 }
-                 finalgrade = finalgrade + grades.get(i);
+                finalgrade = finalgrade + grades.get(i);
             }
             pw1.println("The total grade is: " + (finalgrade/grades.size()));
             fw1.close();
