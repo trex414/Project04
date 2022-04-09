@@ -32,18 +32,19 @@ public class Teacher extends User {
                           ArrayList<Integer> answers) {
         ArrayList<Question> questions = new ArrayList<>();
         for (int k = 0; k < courses.size(); k++) {
-            for (int i = 0; i < questionsS.size(); i++) {
-                ArrayList<String> optionsS = new ArrayList<>();
-                // splits the string of options in the arrayList
-                String[] placement = (options.get(i).split("\n"));
-                // adds each one into a String[]
-                optionsS.addAll(Arrays.asList(placement));
-                questions.set(i, new Question(questionsS.get(i), options.get(answers.get(k)), optionsS));
-            }
             if (course.equalsIgnoreCase(courses.get(k).getName())) {
+                for (int i = 0; i < questionsS.size(); i++) {
+                    ArrayList<String> optionsS = new ArrayList<>();
+                    // splits the string of options in the arrayList
+                    String[] placement = (options.get(i).split("\n"));
+                    // adds each one into a String[]
+                    optionsS.addAll(Arrays.asList(placement));
+                    questions.add(i, new Question(questionsS.get(i), options.get(answers.get(k)), optionsS));
+                    System.out.println(questions.get(i).getPrompt());
+                }
                 courses.get(k).addQuiz(new Quiz(quizName, questions));
+                return "it worked";
             }
-            return "it worked";
         }
         return "it did not work";
     }
