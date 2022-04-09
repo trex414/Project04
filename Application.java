@@ -3,10 +3,10 @@ import java.util.Scanner;
 
 // GRAYSON GOT THIS
 public class Application {
-    public static String welcome = "Welcome to Management System!";
+    public static String welcome = "Welcome to Management System!\n";
     public static String loginP = "Login Options:\n";
-    public static String stuSignU = "1. Set up a Student account\n";
-    public static String teaSignU = "2. Set up a Teacher account\n";
+    public static String stuSignU = "2. Set up a Student account\n";
+    public static String teaSignU = "1. Set up a Teacher account\n";
     public static String logIn = "3. Log-In\n";
     public static String exit = "4. Exit";
     public static String exitPrompt = "Bye!";
@@ -24,7 +24,7 @@ public class Application {
     public static String entFname = "Enter your Full Name:";
     public static String signUpSucc = "You are Signed-Up Successfully!";
     public static String existUser = "This is an existing Username!";
-    public static String selOpt = "Select an option below:\n";
+    public static String selOpt = "Select an option below:";
     public static String chOpt = "1. Add Quiz\n2. Edit Quiz\n3. Delete Quiz\n4. View Student Submissions\n5. View Graded Quizes\n6. Exit";
     public static String error = "Error! Please enter one of the options!\n";
     public static String courseS = "1. Create course\n2. Join course\n";
@@ -51,12 +51,12 @@ public class Application {
 
         while (true) {
 
-            // Welcome user, give user options to create a student account, 
+            // Welcome user, give user options to create a student account,
             // create a teacher account, log in, or exit
             System.out.print(welcome);
             System.out.print(loginP);
-            System.out.print(stuSignU);
             System.out.print(teaSignU);
+            System.out.print(stuSignU);
             System.out.print(logIn);
             System.out.println(exit);
 
@@ -73,20 +73,20 @@ public class Application {
 
             Course course = null;
 
-            if (optAns == 1) {
+            if (optAns == 2) {
 
                 // Setting up students account
                 User user = createAccount(sc, usernames, false);
-                
+
                 // adding user
                 users.add(user);
                 m.addUser(user);
 
-                System.out.println();
-                System.out.println(usernames.size());
-                System.out.println();
+                //System.out.println();
+                //System.out.println(usernames.size());
+                //System.out.println();
 
-            } else if (optAns == 2) {
+            } else if (optAns == 1) {
 
                 // setting up teachers account
                 User user = createAccount(sc, usernames, true);
@@ -136,7 +136,6 @@ public class Application {
                     } while (!didLogIn);
 
                     t = (Teacher) m.getUser(userName, nPassword);
-
                     System.out.println(logSuccess);
 
                     int courseOp;
@@ -154,7 +153,7 @@ public class Application {
                     boolean isNewClass = true;
 
                     switch (courseOp) {
-                        
+
                         // Create a course
                         case 1:
 
@@ -178,14 +177,15 @@ public class Application {
                                 System.out.println("Error\n");
                             }
 
-                            // Create new course 
+                            // Create new course
                             course = new Course(courseName);
                             courses.add(course);
+                            t.addTeacherCourse(course);
 
-                        // Joined a course
+                            // Joined a course
                         case 2:
 
-                            // If they have not created 
+                            // If they have not created
                             while (course == null) {
 
                                 System.out.println(enterCourse);
@@ -206,7 +206,7 @@ public class Application {
                             // Options: 1 add quiz, 2 edit quiz, 3 delete quiz, 4 view submissions, 5 grade quizzes, 6 exit
                             System.out.println(selOpt);
                             System.out.println(chOpt);
-                            
+
                             int inCourseOp = sc.nextInt();
                             sc.nextLine();
 
@@ -232,25 +232,27 @@ public class Application {
                                         String question = sc.nextLine();
                                         System.out.println("How many options will you have?");
                                         int optionNum = sc.nextInt();
+                                        sc.nextLine();
                                         // use the optionNum to get as many options they want
-                                        for (int j = 1; j <= optionNum; j++) {
-                                            System.out.println("What is your option " + i + "?");
+                                        for (int j = 0; j < optionNum; j++) {
+                                            System.out.println("What is your option " + (j + 1) + "?");
                                             String option = sc.nextLine();
-                                            optionsForQuestion = optionsForQuestion + i + option + "\n";
+                                            optionsForQuestion = optionsForQuestion + (j + 1) + " " + option + "\n";
 
                                         }
-                                        System.out.println("which one is the answer?\n " +
+                                        System.out.println("which one is the answer?\n" +
                                                 "please use the number of the option");
                                         System.out.println(optionsForQuestion);
                                         int answerNum = sc.nextInt();
                                         sc.nextLine();
                                         questionsS.add(question);
                                         options.add(optionsForQuestion);
-                                        answers.add(answerNum);
+                                        answers.add(answerNum - 1);
                                     }
-                                    System.out.println(t.addQuiz(courseName,quizName, questionsS, options, answers));
+                                    System.out.println(t.addQuiz(courseName, quizName, questionsS, options, answers));
+                                    break;
                                     // Edit a quiz
-                                    
+
                                 case 2:
                                     // all the options they can choose from in a do while loop
                                     int editOption;
@@ -271,7 +273,8 @@ public class Application {
                                                 System.out.println("What is the new quiz name?");
                                                 String newQuizName = sc.nextLine();
                                                 System.out.println(t.modifyQuizName(courseName, oldQuizName, newQuizName));
-                                            // Quiz question
+                                                break;
+                                                // Quiz question
                                             case 2:
                                                 System.out.println("What is the name of the quiz?");
                                                 quizName = sc.nextLine();
@@ -281,8 +284,9 @@ public class Application {
                                                 String newQuestion = sc.nextLine();
                                                 System.out.println(t.modifyQuizPrompt
                                                         (courseName, quizName, question, newQuestion));
+                                                break;
 
-                                            // Questions choices
+                                                // Questions choices
                                             case 3:
                                                 optionsForQuestion = "";
                                                 System.out.println("What is the name of the quiz?");
@@ -306,11 +310,11 @@ public class Application {
 
                                                 System.out.println(t.modifyQuizChoices
                                                         (courseName, quizName, question, optionsForQuestion, answerNum));
-                                                // exit
-                                            case 4:
                                                 break;
+                                                // exit
                                         }
-                                    } while (editOption != 5);
+                                    } while (editOption != 4);
+                                    break;
                                     // Delete a quiz
                                 case 3:
                                     System.out.println("What is the name of the quiz?");
@@ -376,17 +380,17 @@ public class Application {
                                     }
 
 
-                                // Grade quizzes
+                                    // Grade quizzes
                                 case 5:
                                     // AAKAR GOT THIS
-                                    
-                                // Exit
+
+                                    // Exit
                                 case 6:
 
                                     System.out.println(exitPrompt);
                                     return;
                             }
-                     }
+                    }
 
                 } else if (rSelection == 2) {
 
@@ -419,8 +423,8 @@ public class Application {
                     String courseName = "";
 
                     course = null;
-                    
-                    // If they have not created 
+
+                    // If they have not created
                     while (course == null) {
 
                         System.out.println(enterCourse);
@@ -477,13 +481,13 @@ public class Application {
 
                             s.takeQuiz(q, sc);
 
-                        // View grades
+                            // View grades
                         case 2:
-                        // Alex got this
+                            // Alex got this
 
-                        // Exit
+                            // Exit
                         case 3:
-                        // Carrie got this
+                            // Carrie got this
                     }
                 }
                 // after they login
