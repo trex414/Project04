@@ -39,8 +39,7 @@ public class Teacher extends User {
                     String[] placement = (options.get(i).split("\n"));
                     // adds each one into a String[]
                     optionsS.addAll(Arrays.asList(placement));
-                    questions.add(i, new Question(questionsS.get(i), options.get(answers.get(k)), optionsS));
-                    System.out.println(questions.get(i).getPrompt());
+                    questions.add(i, new Question(questionsS.get(i), optionsS.get(answers.get(k)), optionsS));
                 }
                 courses.get(k).addQuiz(new Quiz(quizName, questions));
                 return "it worked";
@@ -65,18 +64,18 @@ public class Teacher extends User {
     // modification 2 for quizzes
     public String modifyQuizPrompt(String course, String quizName, String question, String newprompt) {
         // check for the course
-        for (int i = 0; i < courses.size(); i++)
-            if (course.equalsIgnoreCase(courses.get(i).getName())) {
+        for (Course cours : courses)
+            if (course.equalsIgnoreCase(cours.getName())) {
                 // check for the quiz
-                for (int j = 0; j < courses.get(i).getQuizzes().size(); j++) {
-                    if (quizName.equalsIgnoreCase(courses.get(i).getQuizzes().get(j).getName())) {
+                for (int j = 0; j < cours.getQuizzes().size(); j++) {
+                    if (quizName.equalsIgnoreCase(cours.getQuizzes().get(j).getName())) {
                         // check for the question
-                        for (int k = 0; k < courses.get(i).getQuizzes().get(j).getQuestions().size(); k++) {
+                        for (int k = 0; k < cours.getQuizzes().get(j).getQuestions().size(); k++) {
                             if (question.equalsIgnoreCase
-                                    (courses.get(i).getQuizzes().get(j).getQuestions().get(k).getPrompt())) {
-                                courses.get(i).getQuizzes().get(j).getQuestions().get(k).setPrompt(newprompt);
+                                    (cours.getQuizzes().get(j).getQuestions().get(k).getPrompt())) {
+                                cours.getQuizzes().get(j).getQuestions().get(k).setPrompt(newprompt);
                                 return "The old question was: " + question + "\n The new question is: " +
-                                        courses.get(i).getQuizzes().get(j).getQuestions().get(k).getPrompt();
+                                        cours.getQuizzes().get(j).getQuestions().get(k).getPrompt();
                             }
                         }
                     }
@@ -87,23 +86,23 @@ public class Teacher extends User {
     // modification 3 for quizzes
     public String modifyQuizChoices(String course, String quizName,String question, String choices, int answer) {
 
-        for (int i = 0; i < courses.size(); i++) {
-            if (course.equalsIgnoreCase(courses.get(i).getName())) {
+        for (Course cours : courses) {
+            if (course.equalsIgnoreCase(cours.getName())) {
                 // check for the quiz
-                for (int j = 0; j < courses.get(i).getQuizzes().size(); j++) {
-                    if (quizName.equalsIgnoreCase(courses.get(i).getQuizzes().get(j).getName())) {
+                for (int j = 0; j < cours.getQuizzes().size(); j++) {
+                    if (quizName.equalsIgnoreCase(cours.getQuizzes().get(j).getName())) {
                         // check for the question
-                        for (int k = 0; k < courses.get(i).getQuizzes().get(j).getQuestions().size(); k++) {
+                        for (int k = 0; k < cours.getQuizzes().get(j).getQuestions().size(); k++) {
                             ArrayList<String> optionsS = new ArrayList<>();
                             if (question.equalsIgnoreCase
-                                    (courses.get(i).getQuizzes().get(j).getQuestions().get(k).getPrompt())) {
+                                    (cours.getQuizzes().get(j).getQuestions().get(k).getPrompt())) {
                                 String[] placement = (choices.split("\n"));
                                 // adds each one into a String[]
                                 optionsS.addAll(Arrays.asList(placement));
-                                courses.get(i).getQuizzes().get(j).getQuestions().get(k).setChoices(optionsS);
+                                cours.getQuizzes().get(j).getQuestions().get(k).setChoices(optionsS);
                                 modifyQuizAnswer(course, quizName, question, answer);
                                 return "The new options are: " +
-                                        courses.get(i).getQuizzes().get(j).getQuestions().get(k).getChoices();
+                                        cours.getQuizzes().get(j).getQuestions().get(k).getChoices();
                             }
                         }
                     }
@@ -114,17 +113,17 @@ public class Teacher extends User {
     }
     // modification 4 for quizzes
     public void modifyQuizAnswer(String course, String quizName,String question, int answer) {
-        for (int i = 0; i < courses.size(); i++) {
-            if (course.equalsIgnoreCase(courses.get(i).getName())) {
+        for (Course cours : courses) {
+            if (course.equalsIgnoreCase(cours.getName())) {
                 // check for the quiz
-                for (int j = 0; j < courses.get(i).getQuizzes().size(); j++) {
-                    if (quizName.equalsIgnoreCase(courses.get(i).getQuizzes().get(j).getName())) {
+                for (int j = 0; j < cours.getQuizzes().size(); j++) {
+                    if (quizName.equalsIgnoreCase(cours.getQuizzes().get(j).getName())) {
                         // check for the question
-                        for (int k = 0; k < courses.get(i).getQuizzes().get(j).getQuestions().size(); k++) {
+                        for (int k = 0; k < cours.getQuizzes().get(j).getQuestions().size(); k++) {
                             if (question.equalsIgnoreCase
-                                    (courses.get(i).getQuizzes().get(j).getQuestions().get(k).getPrompt())) {
-                                courses.get(i).getQuizzes().get(j).getQuestions().get(k).setAnswer
-                                        (courses.get(i).getQuizzes().get(j).getQuestions().get(k).getChoices().get(answer));
+                                    (cours.getQuizzes().get(j).getQuestions().get(k).getPrompt())) {
+                                cours.getQuizzes().get(j).getQuestions().get(k).setAnswer
+                                        (cours.getQuizzes().get(j).getQuestions().get(k).getChoices().get(answer));
                             }
                         }
                     }
@@ -134,11 +133,11 @@ public class Teacher extends User {
     }
     // removes quiz from course
     public String removeQuiz(String course, String quizName) {
-        for (int i = 0; i < courses.size(); i++) {
-            if (course.equalsIgnoreCase(courses.get(i).getName())) {
-                for (int j = 0; j < courses.get(i).getQuizzes().size(); j++) {
-                    if (quizName.equalsIgnoreCase(courses.get(i).getQuizzes().get(j).getName())) {
-                        courses.get(i).removeQuiz(courses.get(i).getQuizzes().get(j));
+        for (Course cours : courses) {
+            if (course.equalsIgnoreCase(cours.getName())) {
+                for (int j = 0; j < cours.getQuizzes().size(); j++) {
+                    if (quizName.equalsIgnoreCase(cours.getQuizzes().get(j).getName())) {
+                        cours.removeQuiz(cours.getQuizzes().get(j));
                         return "Removed Quiz: " + quizName;
                     }
                 }
