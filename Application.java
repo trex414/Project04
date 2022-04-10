@@ -233,40 +233,50 @@ public class Application {
                                         int questionNum;
                                         int optionNum;
                                         int answerNum;
-                                        while (true) {
+                                       while (true) {
                                             try {
-                                                // ask for the name of the quiz
-                                                System.out.println("What would you like to name the quiz?");
-                                                quizName = sc.nextLine();
-                                                System.out.println("How many questions is the quiz?");
-                                                questionNum = sc.nextInt();
+                                                System.out.println("1. Import a file\n2. Type the quiz");
+                                                int teacherQuiz = sc.nextInt();
                                                 sc.nextLine();
-                                                // use the amount of questions they want to create that many questions
-                                                for (int i = 1; i <= questionNum; i++) {
-                                                    StringBuilder optionsForQuestion = new StringBuilder();
-                                                    System.out.println("What is your question " + i + "?");
-                                                    String question = sc.nextLine();
-                                                    System.out.println("How many options will you have?");
-                                                    optionNum = sc.nextInt();
-                                                    sc.nextLine();
-                                                    // use the optionNum to get as many options they want
-                                                    for (int j = 0; j < optionNum; j++) {
-                                                        System.out.println("What is your option " + (j + 1) + "?");
-                                                        String option = sc.nextLine();
-                                                        optionsForQuestion.append(j + 1).append(". ").append(option).append("\n");
+                                                if (teacherQuiz == 1) {
+                                                    System.out.println("What is the file name?");
+                                                    String filename = sc.nextLine();
+                                                    System.out.println(t.addFileQuiz(courseName, filename));
+                                                } else if (teacherQuiz == 2) {
 
+                                                    // ask for the name of the quiz
+                                                    System.out.println("What would you like to name the quiz?");
+                                                    quizName = sc.nextLine();
+                                                    System.out.println("How many questions is the quiz?");
+                                                    questionNum = sc.nextInt();
+                                                    sc.nextLine();
+                                                    // use the amount of questions they want to create that many questions
+                                                    for (int i = 1; i <= questionNum; i++) {
+                                                        StringBuilder optionsForQuestion = new StringBuilder();
+                                                        System.out.println("What is your question " + i + "?");
+                                                        String question = sc.nextLine();
+                                                        System.out.println("How many options will you have?");
+                                                        optionNum = sc.nextInt();
+                                                        sc.nextLine();
+                                                        // use the optionNum to get as many options they want
+                                                        for (int j = 0; j < optionNum; j++) {
+                                                            System.out.println("What is your option " + (j + 1) + "?");
+                                                            String option = sc.nextLine();
+                                                            optionsForQuestion.append(j + 1).append(". ").append(option).append("\n");
+
+                                                        }
+
+                                                        System.out.println("which one is the answer?\n" +
+                                                                "please use the number of the option");
+                                                        System.out.println(optionsForQuestion);
+                                                        answerNum = sc.nextInt();
+                                                        sc.nextLine();
+                                                        questionsS.add(question);
+                                                        options.add(optionsForQuestion.toString());
+                                                        answers.add(answerNum - 1);
                                                     }
-
-                                                    System.out.println("which one is the answer?\n" +
-                                                            "please use the number of the option");
-                                                    System.out.println(optionsForQuestion);
-                                                    answerNum = sc.nextInt();
-                                                    sc.nextLine();
-                                                    questionsS.add(question);
-                                                    options.add(optionsForQuestion.toString());
-                                                    answers.add(answerNum - 1);
+                                                    System.out.println(t.addQuiz(courseName, quizName, questionsS, options, answers));
                                                 }
-                                                System.out.println(t.addQuiz(courseName, quizName, questionsS, options, answers));
                                                 break;
                                             } catch (Exception e) {
                                                 System.out.println("Error, this did not work.\nTry again.");
