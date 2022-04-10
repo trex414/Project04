@@ -25,7 +25,7 @@ public class Application {
     public static String signUpSucc = "You are Signed-Up Successfully!";
     public static String existUser = "This is an existing Username!";
     public static String selOpt = "Select an option below:";
-    public static String chOpt = "1. Add Quiz\n2. Edit Quiz\n3. Delete Quiz\n4. View Student Submissions\n5. View Graded Quizes\n6. Exit";
+    public static String chOpt = "1. Add Quiz\n2. Edit Quiz\n3. Delete Quiz\n4. View and Grade Student Submissions\n5. Exit";
     public static String error = "Error! Please enter one of the options!\n";
     public static String courseS = "1. Create course\n2. Join course\n";
     public static String enterCourse = "Enter the name of the course: ";
@@ -137,7 +137,7 @@ public class Application {
                     try {
                         t = (Teacher) m.getUser(userName, nPassword);
                     } catch (ClassCastException e) {
-                        System.out.println("Student's cannot log in as teachers");
+                        System.out.println("Students cannot log in as teachers");
                         return;
                     }
                     System.out.println(logSuccess);
@@ -192,6 +192,7 @@ public class Application {
                             // If they have not created
                             while (course == null) {
 
+                                boolean courseExistence = false;
                                 System.out.println(enterCourse);
                                 courseName = sc.nextLine();
 
@@ -199,11 +200,14 @@ public class Application {
 
                                     if (courses.get(i).getName().equals(courseName)) {
                                         course = courses.get(i);
+                                        courseExistence = true;
                                         break;
                                     }
                                 }
 
-                                System.out.println("That course does not exist!");
+                                if (!courseExistence) {
+                                    System.out.println("That course does not exist!");
+                                }
                             }
 
                             // Now we are in a course
@@ -223,7 +227,6 @@ public class Application {
                                     ArrayList<String> questionsS = new ArrayList<>();
                                     ArrayList<String> options = new ArrayList<>();
                                     ArrayList<Integer> answers = new ArrayList<>();
-                                    StringBuilder optionsForQuestion = new StringBuilder();
                                     String quizName;
                                     int questionNum;
                                     int optionNum;
@@ -238,6 +241,7 @@ public class Application {
                                             sc.nextLine();
                                             // use the amount of questions they want to create that many questions
                                             for (int i = 1; i <= questionNum; i++) {
+                                                StringBuilder optionsForQuestion = new StringBuilder();
                                                 System.out.println("What is your question " + i + "?");
                                                 String question = sc.nextLine();
                                                 System.out.println("How many options will you have?");
@@ -250,6 +254,7 @@ public class Application {
                                                     optionsForQuestion.append(j + 1).append(". ").append(option).append("\n");
 
                                                 }
+                                                
                                                 System.out.println("which one is the answer?\n" +
                                                         "please use the number of the option");
                                                 System.out.println(optionsForQuestion);
@@ -314,7 +319,7 @@ public class Application {
                                                 // Questions choices
                                             case 3:
                                                 try {
-                                                    optionsForQuestion = new StringBuilder();
+                                                    StringBuilder optionsForQuestion = new StringBuilder();
                                                     System.out.println("What is the name of the quiz?");
                                                     quizName = sc.nextLine();
                                                     System.out.println("What question do you want to change?");
@@ -358,7 +363,7 @@ public class Application {
                                     // View submissions
                                 case 4:
 
-                                    Students s = null;
+                                    Student s = null;
                                     Quiz q = null;
 
                                     boolean isUser = false;
@@ -372,7 +377,7 @@ public class Application {
 
                                             if (users.get(i).getUsername().equals(user)) {
                                                 isUser = true;
-                                                s = (Students) users.get(i);
+                                                s = (Student) users.get(i);
                                             }
                                         }
 
@@ -381,12 +386,11 @@ public class Application {
                                         }
                                     }
 
-                                    quizName = "";
                                     boolean isQuiz = false;
                                     while (!isQuiz) {
 
                                         System.out.println(enterQuiz);
-                                        user = sc.nextLine();
+                                        quizName = sc.nextLine();
 
                                         for (int i = 0; i < course.getQuizzes().size(); i++) {
 
@@ -414,13 +418,30 @@ public class Application {
                                         System.out.println(responses.get(i));
                                     }
 
+                                    /* Aakar here. I decided to merge viewing the submission and grading it because I
+                                    felt like grading was just an extra function on top of it, and I realized that
+                                    "manually grading" a quiz meant that the teacher just has to enter a score for each
+                                    answer because the handout says teachers assign point values to every question.
+                                    I put the scores in an array because points for each individual question should be
+                                    visible when the student views it. I hope this works for grading, as opposed to
+                                    making a separate function. I think it would be straightforward enough to write this
+                                    to a file for the grade viewing capability. */
 
-                                    // Grade quizzes
+                                    System.out.println("Would you like to grade this quiz?\n1. Yes\n2. No");
+                                    int gradingOption;
+                                    do {
+                                        gradingOption = sc.nextInt();
+                                        if (gradingOption == 1) {
+                                            int[] grades = new int[responses.size()];
+                                            for (int i = 0; i < responses.size(); i++) {
+                                                System.out.println("Enter a numerical score for question " + (i + 1) + ":");
+                                                grades[i] = sc.nextInt();
+                                            }
+                                            q.setFinished(true);
+                                        }
+                                    } while (gradingOption < 1 || gradingOption > 2);
+
                                 case 5:
-                                    // AAKAR GOT THIS
-
-                                    // Exit
-                                case 6:
 
                                     System.out.println(exitPrompt);
                                     return;
@@ -429,7 +450,7 @@ public class Application {
 
                 } else if (rSelection == 2) {
 
-                    Students s;
+                    Student s;
 
                     //student account
                     do {
@@ -453,7 +474,7 @@ public class Application {
 
                     System.out.println(logSuccess);
                     try {
-                        s = (Students) m.getUser(userName, nPassword);
+                        s = (Student) m.getUser(userName, nPassword);
                     } catch (ClassCastException e) {
                         System.out.println("Teacher's cannot log in as Students");
                         return;
@@ -593,7 +614,7 @@ public class Application {
             return new Teacher(nFullName, userName, password, isTeacher);
         }
 
-        return new Students(nFullName, userName, password, isTeacher);
+        return new Student(nFullName, userName, password, isTeacher);
     }
 
     public static int verifyInput(Scanner sc, int lowerB, int upperB, String prompt, int input) {
