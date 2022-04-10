@@ -1,6 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class Teacher extends User {
     private ArrayList<Course> courses = new ArrayList<Course>();
@@ -179,6 +178,23 @@ public class Teacher extends User {
      * @return
      */
 
+    // An attempt made by Aakar for a grading function before realizing he could just do this in the application
+    /*
+    public int[] gradeQuiz(Student student, Quiz quiz, Scanner scan) {
+        ArrayList<String> studentResponse = student.getQuizSubmission(quiz);
+        int[] scores = new int[studentResponse.size()];
+        for (int i = 0; i < studentResponse.size(); i++) {
+            Question question = quiz.getQuestions().get(i);
+            System.out.println("Question: " + question.getPrompt() + "\nAnswer: " + studentResponse.get(i) +
+                    "\nEnter the score for this answer.");
+            int score = scan.nextInt();
+            scores[i] = score;
+        }
+        return scores;
+    }
+
+     */
+
     // this will send each question to the main to grade
     public ArrayList<String> PrintQuestionQuiz(String fileName, String quizName, String questionNum) {
         // calls the quiz needed version
@@ -204,7 +220,7 @@ public class Teacher extends User {
     }
 
     // with the grades for each question this will print the graded quiz to a file
-    public String gradeQuiz(String fileName, String quizName, String writingFile, ArrayList<Integer> grades,
+    public String getQuizResult(String fileName, String quizName, String writingFile, ArrayList<Integer> grades,
                             String student) {
         try {
             // starts with the first question and make a verable to add for a final grade
