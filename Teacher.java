@@ -25,7 +25,40 @@ public class Teacher extends User {
     public void addTeacherCourse(Course course) {
         courses.add(course);
     }
-
+    
+    public String  addFileQuiz (String course,String fileName) {
+        // lines will go
+        // 1 quiz name, 2 first question, 3 qestion options, 4 answer line , 5 the answer, then continues
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))){
+            for (int k = 0; k < courses.size(); k++) {
+                if (course.equalsIgnoreCase(courses.get(k).getName())) {
+                    int i = 0;
+                    String line = "";
+                    ArrayList<Question> questions = new ArrayList<>();
+                    line = br.readLine();
+                    String quizName = line;
+                    while ((line = br.readLine()) != null) {
+                        ArrayList<String> options = new ArrayList<>();
+                        String question = line;
+                        while (!(line = br.readLine()).equalsIgnoreCase("Answer")) {
+                            options.add(line);
+                        }
+                        line = br.readLine();
+                        int answer = Integer.parseInt(line);
+                        questions.add(i, new Question(question, options.get(answer), options));
+                        i++;
+                    }
+                    courses.get(k).addQuiz(new Quiz(quizName, questions));
+                    return "it worked";
+                }
+            }
+            
+        } catch (Exception e) {
+            return "Error, no file found.";
+        }
+        return "it did not work";
+    }
+    
     // adds questions to a quiz and then adds that quiz to a course
     public String addQuiz(String course, String quizName, ArrayList<String> questionsS, ArrayList<String> options,
                           ArrayList<Integer> answers) {
