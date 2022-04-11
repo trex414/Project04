@@ -111,6 +111,7 @@ public class Application {
                 //int didLogin = -1;
                 boolean didLogIn = false;
 
+                // Teacher account login
                 if (rSelection == 1) {
 
                     Teacher t;
@@ -266,9 +267,9 @@ public class Application {
 
                                                         }
 
-                                                        System.out.println("which one is the answer?\n" +
+                                                        System.out.println("Which one is the answer?\n" +
                                                                 "please use the number of the option");
-                                                        System.out.println(optionsForQuestion);
+                                                        System.out.print(optionsForQuestion);
                                                         answerNum = sc.nextInt();
                                                         sc.nextLine();
                                                         questionsS.add(question);
@@ -290,11 +291,7 @@ public class Application {
                                         int editOption;
                                         do {
                                             System.out.println("What would you like to edit?");
-                                            System.out.println("""
-                                                    1. Quiz Name
-                                                    2. Quiz question
-                                                    3. Questions new choices
-                                                    4. Leave edit options""");
+                                            System.out.println("1. Quiz Name\n2. Quiz question\n3. Questions new choices\n4. Leave edit options");
                                             editOption = sc.nextInt();
                                             sc.nextLine();
                                             switch (editOption) {
@@ -378,7 +375,7 @@ public class Application {
                                         // View submissions
                                     case 4:
 
-                                        Student s = null;
+                                        Students s = null;
                                         Quiz q = null;
 
                                         boolean isUser = false;
@@ -392,7 +389,7 @@ public class Application {
 
                                                 if (users.get(i).getUsername().equals(user)) {
                                                     isUser = true;
-                                                    s = (Student) users.get(i);
+                                                    s = (Students) users.get(i);
                                                 }
                                             }
 
@@ -402,6 +399,7 @@ public class Application {
                                         }
 
                                         boolean isQuiz = false;
+
                                         while (!isQuiz) {
 
                                             System.out.println(enterQuiz);
@@ -464,10 +462,10 @@ public class Application {
                             } while (inCourseOp != 5);
                     }
 
-
+                // Student account login
                 } else if (rSelection == 2) {
 
-                    Student s;
+                    Students s;
 
                     //student account
                     do {
@@ -491,7 +489,7 @@ public class Application {
 
                     System.out.println(logSuccess);
                     try {
-                        s = (Student) m.getUser(userName, nPassword);
+                        s = (Students) m.getUser(userName, nPassword);
                     } catch (ClassCastException e) {
                         System.out.println("Teacher's cannot log in as Students");
                         return;
@@ -507,14 +505,20 @@ public class Application {
                         System.out.println(enterCourse);
                         courseName = sc.nextLine();
 
-                        for (int i = 0; i < courses.size(); i++) {
+                        // for (int i = 0; i < courses.size(); i++) {
 
-                            if (courses.get(i).getName().equals(courseName)) {
-                                course = courses.get(i);
-                                break;
-                            }
+                        //     if (courses.get(i).getName().equals(courseName)) {
+                        //         course = courses.get(i);
+                        //         break;
+                        //     }
+                        // }
+                        if (m.containsCourse(new Course(courseName))) {
+                            break;
                         }
 
+                        // Minor bug: even if they are entered into the course, it says it does not exist
+                        // Need to implement a view grades
+                        // Quiz name does not work
                         System.out.println("That course does not exist!");
                     }
 
@@ -536,8 +540,7 @@ public class Application {
                             // Take a quiz
                             case 1:
 
-                                System.out.println(enterQuiz);
-                                String quizName = sc.nextLine();
+                                String quizName = "";
 
                                 boolean isQuiz = false;
                                 while (!isQuiz) {
@@ -634,7 +637,7 @@ public class Application {
             return new Teacher(nFullName, userName, password, isTeacher);
         }
 
-        return new Student(nFullName, userName, password, isTeacher);
+        return new Students(nFullName, userName, password, isTeacher);
     }
 
     public static int verifyInput(Scanner sc, int lowerB, int upperB, String prompt, int input) {
