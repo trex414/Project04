@@ -8,7 +8,8 @@ public class Application {
     public static String stuSignU = "2. Set up a Student account\n";
     public static String teaSignU = "1. Set up a Teacher account\n";
     public static String logIn = "3. Log-In\n";
-    public static String exit = "4. Exit";
+    public static String deleteAccount = "4. Delete Account\n";
+    public static String exit = "5. Exit";
     public static String exitPrompt = "Bye!";
     public static String role = "Teacher account or Student Account";
     public static String roleSelection = "1. Teacher Account\n2. Student Account";
@@ -68,7 +69,7 @@ public class Application {
             String optAnsS = sc.nextLine();
 
             // Verify user input
-            String prompt = String.format("%s%s%s%s%s", loginP, stuSignU, teaSignU, logIn, exit);
+            String prompt = String.format("%s%s%s%s%s", loginP, stuSignU, teaSignU, logIn, deleteAccount, exit);
             int optAns = verifyInput(sc, 1, 4, prompt, optAnsS);
 
             Course course = null;
@@ -667,11 +668,66 @@ public class Application {
                 }
                 // after they login
 
-            } else {
+            } else if (optAns == 5) {
 
                 // Exit from the program
                 System.out.println(exitPrompt);
                 return;
+                
+            } else if (optAns == 4) {
+
+                System.out.println(role);
+                System.out.println(roleSelection);
+
+                // Get selection: teacher, student
+                String rSelectionS = sc.nextLine();
+
+                // Verify input
+                String roleS = String.format("%s\n%s\n", role, roleSelection);
+                int rSelection = verifyInput(sc, 1, 2, roleS, rSelectionS);
+
+                // Student account
+                if (rSelection == 2) {
+
+                    System.out.println(username);
+                    String user = sc.nextLine();
+                    System.out.println(password);
+                    String pass = sc.nextLine();
+
+                    User u = null;
+                    for (int i = 0; i < users.size(); i++) {
+                        if (users.get(i) instanceof Students && users.get(i).getUsername().equals(user) && users.get(i).getPassword().equals(pass)) {
+                            u = users.get(i);
+                            users.remove(i);
+                            System.out.println("Student deleted!");
+                            break;
+                        }
+                    }
+
+                    if (u == null) {
+                        System.out.println("User does not exist!");
+                    }
+                }
+                else {
+                    System.out.println(username);
+                    String user = sc.nextLine();
+                    System.out.println(password);
+                    String pass = sc.nextLine();
+
+                    User u = null;
+                    for (int i = 0; i < users.size(); i++) {
+                        if (users.get(i) instanceof Teacher && users.get(i).getUsername().equals(user) && users.get(i).getPassword().equals(pass)) {
+                            u = users.get(i);
+                            users.remove(i);
+                            System.out.println("Teacher deleted!");
+                            break;
+                        }
+                    }
+
+                    if (u == null) {
+                        System.out.println("User does not exist!");
+                    }
+                }
             }
         }
     }
