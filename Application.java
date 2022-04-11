@@ -70,7 +70,7 @@ public class Application {
 
             // Verify user input
             String prompt = String.format("%s%s%s%s%s", loginP, stuSignU, teaSignU, logIn, deleteAccount, exit);
-            int optAns = verifyInput(sc, 1, 4, prompt, optAnsS);
+            int optAns = verifyInput(sc, 1, 5, prompt, optAnsS);
 
             Course course = null;
 
