@@ -45,7 +45,7 @@ public class Teacher extends User {
                         }
                         line = br.readLine();
                         int answer = Integer.parseInt(line);
-                        questions.add(i, new Question(question, options.get(answer), options));
+                        questions.add(i, new Question(question, options.get(answer - 1), options));
                         i++;
                     }
                     courses.get(k).addQuiz(new Quiz(quizName, questions));
