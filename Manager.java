@@ -55,10 +55,6 @@ public class Manager {
         boolean isU = false;
 
         for (int i = 0; i < users.size(); i++) {
-            // System.out.println(users.get(i).getUsername());
-            // System.out.println(username);
-            // System.out.println(users.get(i).getPassword());
-            // System.out.println(password);
             if (users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) {
                 isU = true;
             }

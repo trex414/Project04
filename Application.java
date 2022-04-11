@@ -26,12 +26,13 @@ public class Application {
     public static String existUser = "This is an existing Username!";
     public static String selOpt = "Select an option below:";
     public static String chOpt = "1. Add Quiz\n2. Edit Quiz\n3. Delete Quiz\n4. View and Grade Student Submissions\n5. Sign out";
-    public static String error = "Error! Please enter one of the options!\n";
+    public static String error = "Error! Please enter one of the options!";
     public static String courseS = "1. Create course\n2. Join course\n";
     public static String enterCourse = "Enter the name of the course: ";
     public static String enterUser = "Enter the student's username";
     public static String enterQuiz = "Enter the quiz name";
     public static String studentOp = "1. Take quiz\n2. View grades\n3. Exit";
+    public static String errNum = "Error! Please enter a number!";
     // Take a quiz, view grades, exit
 
     public static void main(String[] args) {
@@ -64,12 +65,11 @@ public class Application {
             String userName;
             String nPassword;
 
-            int optAns = sc.nextInt();
-            sc.nextLine();
+            String optAnsS = sc.nextLine();
 
             // Verify user input
-            String prompt = String.format("%s\n%s\n%s\n%s\n%s\n", loginP, stuSignU, teaSignU, logIn, exit);
-            optAns = verifyInput(sc, 1, 4, prompt, optAns);
+            String prompt = String.format("%s%s%s%s%s", loginP, stuSignU, teaSignU, logIn, exit);
+            int optAns = verifyInput(sc, 1, 4, prompt, optAnsS);
 
             Course course = null;
 
@@ -101,12 +101,11 @@ public class Application {
                 System.out.println(roleSelection);
 
                 // Get selection: teacher, student
-                int rSelection = sc.nextInt();
-                sc.nextLine();
+                String rSelectionS = sc.nextLine();
 
                 // Verify input
                 String roleS = String.format("%s\n%s\n", role, roleSelection);
-                rSelection = verifyInput(sc, 1, 2, roleS, rSelection);
+                int rSelection = verifyInput(sc, 1, 2, roleS, rSelectionS);
 
                 //int didLogin = -1;
                 boolean didLogIn = false;
@@ -142,16 +141,15 @@ public class Application {
                     }
                     System.out.println(logSuccess);
 
-                    int courseOp;
+                    String courseOpS;
 
                     // after they login
                     System.out.println(selOpt);
                     System.out.printf(courseS);
 
-                    courseOp = sc.nextInt();
-                    sc.nextLine();
+                    courseOpS = sc.nextLine();
 
-                    courseOp = verifyInput(sc, 1, 2, String.format("%s%s\n", selOpt, courseS), courseOp);
+                    int courseOp = verifyInput(sc, 1, 2, String.format("%s\n%s\n", selOpt, courseS), courseOpS);
 
                     String courseName = "";
                     boolean isNewClass = true;
@@ -211,17 +209,17 @@ public class Application {
                             }
 
                             // makes it so the whole teacher can do whatever they want in the course before leaving
-                            int inCourseOp = 0;
+                            String inCourseOpS;
+                            int inCourseOp;
                             do {
                                 // Now we are in a course
                                 // Options: 1 add quiz, 2 edit quiz, 3 delete quiz, 4 view submissions, 5 grade quizzes, 6 exit
                                 System.out.println(selOpt);
                                 System.out.println(chOpt);
 
-                                inCourseOp = sc.nextInt();
-                                sc.nextLine();
+                                inCourseOpS = sc.nextLine();
 
-                                inCourseOp = verifyInput(sc, 1, 6, String.format("%s%s\n", selOpt, chOpt), inCourseOp);
+                                inCourseOp = verifyInput(sc, 1, 6, String.format("%s%s\n", selOpt, chOpt), inCourseOpS);
 
                                 switch (inCourseOp) {
                                     // Add a quiz
@@ -230,14 +228,16 @@ public class Application {
                                         ArrayList<String> options = new ArrayList<>();
                                         ArrayList<Integer> answers = new ArrayList<>();
                                         String quizName;
-                                        int questionNum;
-                                        int optionNum;
-                                        int answerNum;
+                                        String questionNumS;
+                                        String optionNumS;
+                                        String answerNumS;
                                         while (true) {
                                             try {
                                                 System.out.println("1. Import a file\n2. Type the quiz");
-                                                int teacherQuiz = sc.nextInt();
-                                                sc.nextLine();
+                                                String teacherQuizS = sc.nextLine();
+
+                                                int teacherQuiz = verifyInput(sc, 1, 2, "1. Import a file\n2. Type the quiz", teacherQuizS);
+
                                                 if (teacherQuiz == 1) {
                                                     System.out.println("What is the file name?");
                                                     String filename = sc.nextLine();
@@ -248,16 +248,20 @@ public class Application {
                                                     System.out.println("What would you like to name the quiz?");
                                                     quizName = sc.nextLine();
                                                     System.out.println("How many questions is the quiz?");
-                                                    questionNum = sc.nextInt();
-                                                    sc.nextLine();
+                                                    questionNumS = sc.nextLine();
+
+                                                    int questionNum = verifyInput(sc, 1, 80, prompt, questionNumS);
+
                                                     // use the amount of questions they want to create that many questions
                                                     for (int i = 1; i <= questionNum; i++) {
                                                         StringBuilder optionsForQuestion = new StringBuilder();
                                                         System.out.println("What is your question " + i + "?");
                                                         String question = sc.nextLine();
                                                         System.out.println("How many options will you have?");
-                                                        optionNum = sc.nextInt();
-                                                        sc.nextLine();
+                                                        optionNumS = sc.nextLine();
+
+                                                        int optionNum = verifyInput(sc, 1, 80, "How many options will you have?", optionNumS);
+
                                                         // use the optionNum to get as many options they want
                                                         for (int j = 0; j < optionNum; j++) {
                                                             System.out.println("What is your option " + (j + 1) + "?");
@@ -269,8 +273,11 @@ public class Application {
                                                         System.out.println("which one is the answer?\n" +
                                                                 "please use the number of the option");
                                                         System.out.println(optionsForQuestion);
-                                                        answerNum = sc.nextInt();
-                                                        sc.nextLine();
+                                                        answerNumS = sc.nextLine();
+
+                                                        int answerNum = verifyInput(sc, 1, optionNum, "which one is the answer?\n" +
+                                                        "please use the number of the option", answerNumS);
+
                                                         questionsS.add(question);
                                                         options.add(optionsForQuestion.toString());
                                                         answers.add(answerNum - 1);
@@ -287,16 +294,22 @@ public class Application {
 
                                     case 2:
                                         // all the options they can choose from in a do while loop
+                                        String editOptionS;
                                         int editOption;
                                         do {
+                                            String pr = "What would you like to edit?\n" + "1. Quiz Name\n" + 
+                                            "2. Quiz question\n" + 
+                                            "3. Questions new choices\n" + 
+                                            "4. Leave edit options";                                     
                                             System.out.println("What would you like to edit?");
-                                            System.out.println("""
-                                                    1. Quiz Name
-                                                    2. Quiz question
-                                                    3. Questions new choices
-                                                    4. Leave edit options""");
-                                            editOption = sc.nextInt();
-                                            sc.nextLine();
+                                            System.out.println("" + 
+                                                    "1. Quiz Name\n" + 
+                                                    "2. Quiz question\n" + 
+                                                    "3. Questions new choices\n" + 
+                                                    "4. Leave edit options");
+                                            editOptionS = sc.nextLine();
+
+                                            editOption = verifyInput(sc, 1, 4, pr, editOptionS);
                                             switch (editOption) {
                                                 // quiz name
                                                 case 1:
@@ -334,10 +347,15 @@ public class Application {
                                                         StringBuilder optionsForQuestion = new StringBuilder();
                                                         System.out.println("What is the name of the quiz?");
                                                         quizName = sc.nextLine();
+
                                                         System.out.println("What question do you want to change?");
                                                         question = sc.nextLine();
+
                                                         System.out.println("How many options will you have?");
-                                                        optionNum = sc.nextInt();
+                                                        optionNumS = sc.nextLine();
+
+                                                        int optionNum = verifyInput(sc, 1, 80, "How many options will you have?", optionNumS);
+
                                                         // use the optionNum to get as many options they want
                                                         for (int j = 1; j <= optionNum; j++) {
                                                             System.out.println("What is your option " + j + "?");
@@ -348,8 +366,10 @@ public class Application {
                                                         System.out.println("which one is the answer?\n " +
                                                                 "please use the number of the option");
                                                         System.out.print(optionsForQuestion);
-                                                        answerNum = sc.nextInt();
-                                                        sc.nextLine();
+                                                        answerNumS = sc.nextLine();
+
+                                                        int answerNum = verifyInput(sc, 1, optionNum, "which one is the answer?\n " +
+                                                        "please use the number of the option", answerNumS);
 
                                                         System.out.println(t.modifyQuizChoices
                                                                 (courseName, quizName, question, optionsForQuestion.toString(), answerNum));
@@ -378,7 +398,7 @@ public class Application {
                                     // View submissions
                                     case 4:
 
-                                        Student s = null;
+                                        Students s = null;
                                         Quiz q = null;
 
                                         boolean isUser = false;
@@ -392,7 +412,7 @@ public class Application {
 
                                                 if (users.get(i).getUsername().equals(user)) {
                                                     isUser = true;
-                                                    s = (Student) users.get(i);
+                                                    s = (Students) users.get(i);
                                                 }
                                             }
 
@@ -434,16 +454,20 @@ public class Application {
                                         }
 
                                         System.out.println("Would you like to grade this quiz?\n1. Yes\n2. No");
+                                        String gradingOptionS;
                                         int gradingOption;
                                         do {
-                                            gradingOption = sc.nextInt();
+                                            gradingOptionS = sc.nextLine();
+                                            gradingOption = verifyInput(sc, 1, 2, prompt, gradingOptionS);
                                             if (gradingOption == 1) {
                                                 int[] grades = new int[responses.size() + 1];
                                                 System.out.println("Enter the maximum possible score for this quiz.");
-                                                int maxScore = sc.nextInt();
+                                                String maxScoreS = sc.nextLine();
+                                                int maxScore = verifyInput(sc, 0, 1000, "Enter the maximum possible score for this quiz.", maxScoreS);
                                                 for (int i = 0; i < responses.size(); i++) {
                                                     System.out.println("Enter a numerical score for question " + (i + 1) + ":");
                                                     grades[i] = sc.nextInt();
+                                                    sc.nextLine();
                                                 }
                                                 sc.nextLine();
                                                 grades[responses.size()] = maxScore;
@@ -474,7 +498,7 @@ public class Application {
 
                 } else if (rSelection == 2) {
 
-                    Student s;
+                    Students s;
 
                     //student account
                     do {
@@ -498,7 +522,7 @@ public class Application {
 
                     System.out.println(logSuccess);
                     try {
-                        s = (Student) m.getUser(userName, nPassword);
+                        s = (Students) m.getUser(userName, nPassword);
                     } catch (ClassCastException e) {
                         System.out.println("Teacher's cannot log in as Students");
                         return;
@@ -527,16 +551,16 @@ public class Application {
                         }
                     }
 
-                    int stuOp = 0;
+                    String stuOpS;
+                    int stuOp;
                     do {
                         System.out.println(selOpt);
                         System.out.println(studentOp);
 
                         // Option 1 quiz, 2 view grades, 3 exit
-                        stuOp = sc.nextInt();
-                        sc.nextLine();
+                        stuOpS = sc.nextLine();
 
-                        stuOp = verifyInput(sc, 1, 3, String.format("%s%s\n", selOpt, studentOp), stuOp);
+                        stuOp = verifyInput(sc, 1, 3, String.format("%s%s\n", selOpt, studentOp), stuOpS);
 
                         Quiz q = null;
                         String quizName;
@@ -680,21 +704,49 @@ public class Application {
             return new Teacher(nFullName, userName, password, isTeacher);
         }
 
-        return new Student(nFullName, userName, password, isTeacher);
+        return new Students(nFullName, userName, password, isTeacher);
     }
 
-    public static int verifyInput(Scanner sc, int lowerB, int upperB, String prompt, int input) {
+    public static int verifyInput(Scanner sc, int lowerB, int upperB, String prompt, String input) {
 
-        while (input < lowerB || input > upperB) {
+        int inputInt = -1;
+        boolean isNum = false;
 
-            System.out.println(error);
-            System.out.println(tryL);
+        while (true) {
+            isNum = false;
 
-            input = sc.nextInt();
-            sc.nextLine();
+            while (!isNum) {
+                try {
+                    inputInt = Integer.parseInt(input);
+                    isNum = true;
+                } catch (NumberFormatException e) {
+
+                    System.out.println(errNum);
+                    System.out.println(tryL);
+
+                    System.out.println(prompt);
+
+                    input = sc.nextLine();
+                }
+            }
+
+            if (inputInt < lowerB || inputInt > upperB) {
+
+                System.out.println(error);
+                System.out.println(tryL);
+
+                System.out.println(prompt);
+
+            } else {
+                break;
+            }
+
+            input = sc.nextLine();
         }
 
-        return input;
+        System.out.println("Exiting verification");
+
+        return inputInt;
     }
 
     public static boolean isInList(Object o, ArrayList<Object> list) {

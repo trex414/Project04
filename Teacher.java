@@ -26,7 +26,7 @@ public class Teacher extends User {
         courses.add(course);
     }
     
-    public String  addFileQuiz (String course,String fileName) {
+    public String addFileQuiz(String course,String fileName) {
         // lines will go
         // 1 quiz name, 2 first question, 3 qestion options, 4 answer line , 5 the answer, then continues
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))){

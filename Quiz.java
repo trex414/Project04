@@ -5,8 +5,8 @@ public class Quiz {
 
     private String name;
     private ArrayList<Question> questions;
-    boolean isFinished;
-    boolean isGraded;
+    private boolean isFinished;
+    private boolean isGraded;
 
     public Quiz(String name, ArrayList<Question> questions) {
         this.name = name;
