@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 // GRAYSON GOT THIS
 public class Application {
@@ -33,11 +33,6 @@ public class Application {
     public static String enterQuiz = "Enter the quiz name";
     public static String studentOp = "1. Take quiz\n2. View grades\n3. Exit";
     // Take a quiz, view grades, exit
-
-    // Minor bug: even if they are entered into the course, it says it does not exist (I think I fixed this)
-    // Need to implement a view grades
-    // Quiz name does not work (i.e. it crashes if you type a correct name)
-    // Does not handle input mismatch type (i.e. if we ask for an integer and they give us a char)
 
     public static void main(String[] args) {
 
@@ -116,7 +111,6 @@ public class Application {
                 //int didLogin = -1;
                 boolean didLogIn = false;
 
-                // Teacher account login
                 if (rSelection == 1) {
 
                     Teacher t;
@@ -215,7 +209,7 @@ public class Application {
                                     System.out.println("That course does not exist!");
                                 }
                             }
-                            
+
                             // makes it so the whole teacher can do whatever they want in the course before leaving
                             int inCourseOp = 0;
                             do {
@@ -239,12 +233,8 @@ public class Application {
                                         int questionNum;
                                         int optionNum;
                                         int answerNum;
-
-                                        Quiz tempQ = new Quiz();
-                    
-                                       while (true) {
+                                        while (true) {
                                             try {
-                                                System.out.println(selOpt);
                                                 System.out.println("1. Import a file\n2. Type the quiz");
                                                 int teacherQuiz = sc.nextInt();
                                                 sc.nextLine();
@@ -255,25 +245,16 @@ public class Application {
                                                 } else if (teacherQuiz == 2) {
 
                                                     // ask for the name of the quiz
-                                                    System.out.println(selOpt);
                                                     System.out.println("What would you like to name the quiz?");
                                                     quizName = sc.nextLine();
-                                                    tempQ.setName(quizName);
-
                                                     System.out.println("How many questions is the quiz?");
                                                     questionNum = sc.nextInt();
                                                     sc.nextLine();
-
                                                     // use the amount of questions they want to create that many questions
                                                     for (int i = 1; i <= questionNum; i++) {
-
-                                                        Question ques = new Question();
-
                                                         StringBuilder optionsForQuestion = new StringBuilder();
                                                         System.out.println("What is your question " + i + "?");
                                                         String question = sc.nextLine();
-                                                        ques.setPrompt(question);
-
                                                         System.out.println("How many options will you have?");
                                                         optionNum = sc.nextInt();
                                                         sc.nextLine();
@@ -281,26 +262,19 @@ public class Application {
                                                         for (int j = 0; j < optionNum; j++) {
                                                             System.out.println("What is your option " + (j + 1) + "?");
                                                             String option = sc.nextLine();
-                                                            ques.addChoice(option);
                                                             optionsForQuestion.append(j + 1).append(". ").append(option).append("\n");
+
                                                         }
 
-                                                        System.out.println("Which one is the answer?\n" +
+                                                        System.out.println("which one is the answer?\n" +
                                                                 "please use the number of the option");
-                                                        System.out.print(optionsForQuestion);
+                                                        System.out.println(optionsForQuestion);
                                                         answerNum = sc.nextInt();
                                                         sc.nextLine();
-
-                                                        ques.setAnswer(ques.getChoice(answerNum-1));
-
                                                         questionsS.add(question);
                                                         options.add(optionsForQuestion.toString());
                                                         answers.add(answerNum - 1);
-                                                        tempQ.addQuestion(ques);
                                                     }
-
-                                                    course.addQuiz(tempQ);
-
                                                     System.out.println(t.addQuiz(courseName, quizName, questionsS, options, answers));
                                                 }
                                                 break;
@@ -316,7 +290,11 @@ public class Application {
                                         int editOption;
                                         do {
                                             System.out.println("What would you like to edit?");
-                                            System.out.println("1. Quiz Name\n2. Quiz question\n3. Questions new choices\n4. Leave edit options");
+                                            System.out.println("""
+                                                    1. Quiz Name
+                                                    2. Quiz question
+                                                    3. Questions new choices
+                                                    4. Leave edit options""");
                                             editOption = sc.nextInt();
                                             sc.nextLine();
                                             switch (editOption) {
@@ -397,10 +375,10 @@ public class Application {
                                             }
                                         }
                                         break;
-                                        // View submissions
+                                    // View submissions
                                     case 4:
 
-                                        Students s = null;
+                                        Student s = null;
                                         Quiz q = null;
 
                                         boolean isUser = false;
@@ -414,7 +392,7 @@ public class Application {
 
                                                 if (users.get(i).getUsername().equals(user)) {
                                                     isUser = true;
-                                                    s = (Students) users.get(i);
+                                                    s = (Student) users.get(i);
                                                 }
                                             }
 
@@ -424,7 +402,6 @@ public class Application {
                                         }
 
                                         boolean isQuiz = false;
-
                                         while (!isQuiz) {
 
                                             System.out.println(enterQuiz);
@@ -449,33 +426,40 @@ public class Application {
                                         ArrayList<Question> questions = q.getQuestions();
 
                                         for (int i = 0; i < responses.size(); i++) {
-                                            System.out.println(questions.get(i).getPrompt());
+                                            System.out.println("Question " + (i + 1) + ": " + questions.get(i).getPrompt() + "\nChoices:");
                                             for (int j = 0; j < questions.get(i).getChoices().size(); j++) {
-                                                System.out.println(questions.get(i).getChoice(i));
+                                                System.out.println(questions.get(i).getChoice(j));
                                             }
-                                            System.out.println(responses.get(i));
+                                            System.out.println("Student's response: " + responses.get(i).substring(responses.get(i).indexOf(" ")));
                                         }
-
-                                    /* Aakar here. I decided to merge viewing the submission and grading it because I
-                                    felt like grading was just an extra function on top of it, and I realized that
-                                    "manually grading" a quiz meant that the teacher just has to enter a score for each
-                                    answer because the handout says teachers assign point values to every question.
-                                    I put the scores in an array because points for each individual question should be
-                                    visible when the student views it. I hope this works for grading, as opposed to
-                                    making a separate function. I think it would be straightforward enough to write this
-                                    to a file for the grade viewing capability. */
 
                                         System.out.println("Would you like to grade this quiz?\n1. Yes\n2. No");
                                         int gradingOption;
                                         do {
                                             gradingOption = sc.nextInt();
                                             if (gradingOption == 1) {
-                                                int[] grades = new int[responses.size()];
+                                                int[] grades = new int[responses.size() + 1];
+                                                System.out.println("Enter the maximum possible score for this quiz.");
+                                                int maxScore = sc.nextInt();
                                                 for (int i = 0; i < responses.size(); i++) {
                                                     System.out.println("Enter a numerical score for question " + (i + 1) + ":");
                                                     grades[i] = sc.nextInt();
                                                 }
-                                                q.setFinished(true);
+                                                sc.nextLine();
+                                                grades[responses.size()] = maxScore;
+                                                System.out.println("Enter name of file to write scores of student for this quiz to: ");
+                                                String fileName = sc.nextLine();
+                                                File f = new File(fileName);
+                                                try {
+                                                    FileOutputStream fos = new FileOutputStream(f);
+                                                    PrintWriter pw = new PrintWriter(fos);
+                                                    for (int i = 0; i < grades.length; i++) {
+                                                        pw.println(grades[i]);
+                                                    }
+                                                    pw.close();
+                                                } catch (IOException e) {
+                                                    System.out.println("Was not able to successfully write grades to a file.");
+                                                }
                                             }
                                         } while (gradingOption < 1 || gradingOption > 2);
                                         break;
@@ -487,10 +471,10 @@ public class Application {
                             } while (inCourseOp != 5);
                     }
 
-                // Student account login
+
                 } else if (rSelection == 2) {
 
-                    Students s;
+                    Student s;
 
                     //student account
                     do {
@@ -514,7 +498,7 @@ public class Application {
 
                     System.out.println(logSuccess);
                     try {
-                        s = (Students) m.getUser(userName, nPassword);
+                        s = (Student) m.getUser(userName, nPassword);
                     } catch (ClassCastException e) {
                         System.out.println("Teacher's cannot log in as Students");
                         return;
@@ -530,18 +514,17 @@ public class Application {
                         System.out.println(enterCourse);
                         courseName = sc.nextLine();
 
-                        // for (int i = 0; i < courses.size(); i++) {
+                        for (int i = 0; i < courses.size(); i++) {
 
-                        //     if (courses.get(i).getName().equals(courseName)) {
-                        //         course = courses.get(i);
-                        //         break;
-                        //     }
-                        // }
-                        if (m.containsCourse(new Course(courseName))) {
-                            break;
+                            if (courses.get(i).getName().equals(courseName)) {
+                                course = courses.get(i);
+                                break;
+                            }
                         }
 
-                        System.out.println("That course does not exist!");
+                        if (course == null) {
+                            System.out.println("That course does not exist!");
+                        }
                     }
 
                     int stuOp = 0;
@@ -556,15 +539,18 @@ public class Application {
                         stuOp = verifyInput(sc, 1, 3, String.format("%s%s\n", selOpt, studentOp), stuOp);
 
                         Quiz q = null;
+                        String quizName;
+                        boolean isQuiz;
 
                         switch (stuOp) {
 
                             // Take a quiz
                             case 1:
 
-                                String quizName = "";
+                                // System.out.println(enterQuiz);
+                                // quizName = sc.nextLine();
 
-                                boolean isQuiz = false;
+                                isQuiz = false;
                                 while (!isQuiz) {
 
                                     System.out.println(enterQuiz);
@@ -585,11 +571,46 @@ public class Application {
 
                                 s.takeQuiz(q, sc);
                                 break;
-                                // View grades
+                            // View grades
                             case 2:
-                                // Alex got this
+                                // System.out.println(enterQuiz);
+                                // quizName = sc.nextLine();
+
+                                isQuiz = false;
+                                while (!isQuiz) {
+
+                                    System.out.println(enterQuiz);
+                                    quizName = sc.nextLine();
+
+                                    for (int i = 0; i < course.getQuizzes().size(); i++) {
+
+                                        if (course.getQuiz(i).getName().equals(quizName)) {
+                                            isQuiz = true;
+                                            q = course.getQuiz(i);
+                                        }
+                                    }
+
+                                    if (!isQuiz) {
+                                        System.out.println("Error! Quiz does not exist!");
+                                    }
+                                }
+
+                                System.out.println("Enter name of file with your scores for this quiz: ");
+                                String fileName = sc.nextLine();
+                                int[] grades = new int[q.getQuestions().size()];
+                                File f = new File(fileName);
+                                try {
+                                    BufferedReader bfr = new BufferedReader(new FileReader(f));
+                                    for (int i = 0; i < grades.length; i++) {
+                                        grades[i] = Integer.parseInt(bfr.readLine());
+                                    }
+                                    bfr.close();
+                                } catch (Exception e) {
+                                    System.out.println("Was not able to successfully read grades from a file.");
+                                }
+                                s.viewGrades(q, grades);
                                 break;
-                                // Exit
+                            // Exit
                             case 3:
                                 break;
                         }
@@ -659,7 +680,7 @@ public class Application {
             return new Teacher(nFullName, userName, password, isTeacher);
         }
 
-        return new Students(nFullName, userName, password, isTeacher);
+        return new Student(nFullName, userName, password, isTeacher);
     }
 
     public static int verifyInput(Scanner sc, int lowerB, int upperB, String prompt, int input) {
