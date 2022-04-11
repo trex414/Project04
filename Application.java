@@ -699,6 +699,7 @@ public class Application {
                         if (users.get(i) instanceof Students && users.get(i).getUsername().equals(user) && users.get(i).getPassword().equals(pass)) {
                             u = users.get(i);
                             users.remove(i);
+                            usernames.remove(i);
                             System.out.println("Student deleted!");
                             break;
                         }
@@ -719,6 +720,7 @@ public class Application {
                         if (users.get(i) instanceof Teacher && users.get(i).getUsername().equals(user) && users.get(i).getPassword().equals(pass)) {
                             u = users.get(i);
                             users.remove(i);
+                            usernames.remove(i);
                             System.out.println("Teacher deleted!");
                             break;
                         }
