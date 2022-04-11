@@ -487,12 +487,37 @@ public class Application {
                                             }
                                         } while (gradingOption < 1 || gradingOption > 2);
                                         break;
+                                    
 
                                     case 5:
                                         //System.out.println(exitPrompt);
                                         break;
                                 }
                             } while (inCourseOp != 5);
+                            break;
+                            
+                         // Delete a course
+                        case 3:
+
+                            System.out.println(enterCourse);
+                            courseName = sc.nextLine();
+
+                            Course c = null;
+
+                            for (int i = 0; i < courses.size(); i++) {
+
+                                if (courses.get(i).getName().equals(courseName)) {
+                                    c = courses.get(i);
+                                    courses.remove(i);
+                                    System.out.println("Course deleted!");
+                                    break;
+                                }
+                            }
+
+                            if (c == null) {
+                                System.out.println("No such course exists!");
+                            }
+                            break;
                     }
 
 
