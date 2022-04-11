@@ -8,8 +8,8 @@ public class Application {
     public static String stuSignU = "2. Set up a Student account\n";
     public static String teaSignU = "1. Set up a Teacher account\n";
     public static String logIn = "3. Log-In\n";
-    public static String deleteAccount = "4. Delete Account\n";
     public static String exit = "5. Exit";
+    public static String deleteAccount = "4. Delete Account\n";
     public static String exitPrompt = "Bye!";
     public static String role = "Teacher account or Student Account";
     public static String roleSelection = "1. Teacher Account\n2. Student Account";
@@ -28,7 +28,7 @@ public class Application {
     public static String selOpt = "Select an option below:";
     public static String chOpt = "1. Add Quiz\n2. Edit Quiz\n3. Delete Quiz\n4. View and Grade Student Submissions\n5. Sign out";
     public static String error = "Error! Please enter one of the options!";
-    public static String courseS = "1. Create course\n2. Join course\n";
+    public static String courseS = "1. Create course\n2. Join course\n3. Delete course\n";
     public static String enterCourse = "Enter the name of the course: ";
     public static String enterUser = "Enter the student's username";
     public static String enterQuiz = "Enter the quiz name";
@@ -60,6 +60,7 @@ public class Application {
             System.out.print(teaSignU);
             System.out.print(stuSignU);
             System.out.print(logIn);
+            System.out.print(deleteAccount);
             System.out.println(exit);
 
             // Store user's username and password
@@ -150,7 +151,7 @@ public class Application {
 
                     courseOpS = sc.nextLine();
 
-                    int courseOp = verifyInput(sc, 1, 2, String.format("%s\n%s\n", selOpt, courseS), courseOpS);
+                    int courseOp = verifyInput(sc, 1, 3, String.format("%s\n%s\n", selOpt, courseS), courseOpS);
 
                     String courseName = "";
                     boolean isNewClass = true;
@@ -488,7 +489,6 @@ public class Application {
                                             }
                                         } while (gradingOption < 1 || gradingOption > 2);
                                         break;
-                                    
 
                                     case 5:
                                         //System.out.println(exitPrompt);
@@ -496,8 +496,8 @@ public class Application {
                                 }
                             } while (inCourseOp != 5);
                             break;
-                            
-                         // Delete a course
+
+                        // Delete a course
                         case 3:
 
                             System.out.println(enterCourse);
@@ -673,7 +673,7 @@ public class Application {
                 // Exit from the program
                 System.out.println(exitPrompt);
                 return;
-                
+
             } else if (optAns == 4) {
 
                 System.out.println(role);
@@ -825,7 +825,7 @@ public class Application {
             input = sc.nextLine();
         }
 
-        System.out.println("Exiting verification");
+       // System.out.println("Exiting verification");
 
         return inputInt;
     }
