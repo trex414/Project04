@@ -1,7 +1,6 @@
 import java.util.*;
 import java.io.*;
 
-// GRAYSON GOT THIS
 public class Application {
     public static String welcome = "Welcome to Management System!\n";
     public static String loginP = "Login Options:\n";
@@ -84,10 +83,6 @@ public class Application {
                 users.add(user);
                 m.addUser(user);
 
-                //System.out.println();
-                //System.out.println(usernames.size());
-                //System.out.println();
-
             } else if (optAns == 1) {
 
                 // setting up teachers account
@@ -109,7 +104,6 @@ public class Application {
                 String roleS = String.format("%s\n%s\n", role, roleSelection);
                 int rSelection = verifyInput(sc, 1, 2, roleS, rSelectionS);
 
-                //int didLogin = -1;
                 boolean didLogIn = false;
 
                 if (rSelection == 1) {
@@ -491,7 +485,6 @@ public class Application {
                                         break;
 
                                     case 5:
-                                        //System.out.println(exitPrompt);
                                         break;
                                 }
                             } while (inCourseOp != 5);
@@ -597,8 +590,6 @@ public class Application {
                             // Take a quiz
                             case 1:
 
-                                // System.out.println(enterQuiz);
-                                // quizName = sc.nextLine();
 
                                 isQuiz = false;
                                 while (!isQuiz) {
@@ -623,8 +614,6 @@ public class Application {
                                 break;
                             // View grades
                             case 2:
-                                // System.out.println(enterQuiz);
-                                // quizName = sc.nextLine();
 
                                 isQuiz = false;
                                 while (!isQuiz) {
@@ -826,8 +815,6 @@ public class Application {
 
             input = sc.nextLine();
         }
-
-       // System.out.println("Exiting verification");
 
         return inputInt;
     }
