@@ -2,6 +2,8 @@
 Grayson Nocera: Submitted Vocareum.
 Trey Rosenfeldt: Submitted Report.
 
+Compilation: To compile and run the program, open up the terminal. Then, run the following command to compile the program: "javac Application.java". After the program has compiled, run "Application.java". When this is run, a series of menus will come up to guide the user through our program.
+
 Description:
 For this project, we created a learning management system quiz. Users will be able to make an account based on their roles (students or teacher). After users created the account they will be able to have access to the management system, however, the user's login will be denied if trying to login into a different role, and when making an account usernames have to be unique to the users   (if not, it would also be denied). After all, students will be able to take quizzes and view submissions and grades. Teachers will be able to create a course, edit a course, and delete a course. Within a course that has been created, they will be able to create a quiz, edit the quiz and they can delete quizzes.
 
