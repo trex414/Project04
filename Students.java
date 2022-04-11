@@ -61,18 +61,24 @@ public class Students extends User {
             System.out.println("You have answered every question. Would you like to submit or redo a question?" +
                     "\n1. Submit\n2. Change an answer");
             int submitOption = scan.nextInt();
+            scan.nextLine();
             if (submitOption == 1) {
+            // if (submitOption == 1) {
+            //     break;
+            // } else if (submitOption == 2) {
+            //     // System.out.println("Which question (1-" + quiz.getQuestions().size() + ") would you like to redo?");
+            //     // int questionToRedo = scan.nextInt();
+            //     // currentQuestion = quiz.getQuestions().get(questionToRedo - 1);
+            //     // System.out.println(currentQuestion.getPrompt());
+            //     // for (int j = 0; j < currentQuestion.getChoices().size(); j++) {
+            //     //     System.out.println(currentQuestion.getChoice(j));
+            //     // }
+            //     // responseOption = scan.nextInt();
+            //     // responses.set((responseOption - 1), currentQuestion.getChoices().get(responseOption - 1));
+
+
+            // }
                 break;
-            } else if (submitOption == 2) {
-                System.out.println("Which question (1-" + quiz.getQuestions().size() + ") would you like to redo?");
-                int questionToRedo = scan.nextInt();
-                currentQuestion = quiz.getQuestions().get(questionToRedo - 1);
-                System.out.println(currentQuestion.getPrompt());
-                for (int j = 0; j < currentQuestion.getChoices().size(); j++) {
-                    System.out.println(currentQuestion.getChoice(j));
-                }
-                responseOption = scan.nextInt();
-                responses.set((responseOption - 1), currentQuestion.getChoices().get(responseOption - 1));
             }
         }
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());

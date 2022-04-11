@@ -629,10 +629,10 @@ public class Application {
                                         grades[i] = Integer.parseInt(bfr.readLine());
                                     }
                                     bfr.close();
+                                    s.viewGrades(q, grades);
                                 } catch (Exception e) {
                                     System.out.println("Was not able to successfully read grades from a file.");
                                 }
-                                s.viewGrades(q, grades);
                                 break;
                             // Exit
                             case 3:
