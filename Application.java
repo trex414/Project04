@@ -34,6 +34,11 @@ public class Application {
     public static String studentOp = "1. Take quiz\n2. View grades\n3. Exit";
     // Take a quiz, view grades, exit
 
+    // Minor bug: even if they are entered into the course, it says it does not exist (I think I fixed this)
+    // Need to implement a view grades
+    // Quiz name does not work (i.e. it crashes if you type a correct name)
+    // Does not handle input mismatch type (i.e. if we ask for an integer and they give us a char)
+
     public static void main(String[] args) {
 
         // Create scanner to read input from user
@@ -234,8 +239,12 @@ public class Application {
                                         int questionNum;
                                         int optionNum;
                                         int answerNum;
+
+                                        Quiz tempQ = new Quiz();
+                    
                                        while (true) {
                                             try {
+                                                System.out.println(selOpt);
                                                 System.out.println("1. Import a file\n2. Type the quiz");
                                                 int teacherQuiz = sc.nextInt();
                                                 sc.nextLine();
@@ -246,16 +255,25 @@ public class Application {
                                                 } else if (teacherQuiz == 2) {
 
                                                     // ask for the name of the quiz
+                                                    System.out.println(selOpt);
                                                     System.out.println("What would you like to name the quiz?");
                                                     quizName = sc.nextLine();
+                                                    tempQ.setName(quizName);
+
                                                     System.out.println("How many questions is the quiz?");
                                                     questionNum = sc.nextInt();
                                                     sc.nextLine();
+
                                                     // use the amount of questions they want to create that many questions
                                                     for (int i = 1; i <= questionNum; i++) {
+
+                                                        Question ques = new Question();
+
                                                         StringBuilder optionsForQuestion = new StringBuilder();
                                                         System.out.println("What is your question " + i + "?");
                                                         String question = sc.nextLine();
+                                                        ques.setPrompt(question);
+
                                                         System.out.println("How many options will you have?");
                                                         optionNum = sc.nextInt();
                                                         sc.nextLine();
@@ -263,8 +281,8 @@ public class Application {
                                                         for (int j = 0; j < optionNum; j++) {
                                                             System.out.println("What is your option " + (j + 1) + "?");
                                                             String option = sc.nextLine();
+                                                            ques.addChoice(option);
                                                             optionsForQuestion.append(j + 1).append(". ").append(option).append("\n");
-
                                                         }
 
                                                         System.out.println("Which one is the answer?\n" +
@@ -272,10 +290,17 @@ public class Application {
                                                         System.out.print(optionsForQuestion);
                                                         answerNum = sc.nextInt();
                                                         sc.nextLine();
+
+                                                        ques.setAnswer(ques.getChoice(answerNum-1));
+
                                                         questionsS.add(question);
                                                         options.add(optionsForQuestion.toString());
                                                         answers.add(answerNum - 1);
+                                                        tempQ.addQuestion(ques);
                                                     }
+
+                                                    course.addQuiz(tempQ);
+
                                                     System.out.println(t.addQuiz(courseName, quizName, questionsS, options, answers));
                                                 }
                                                 break;
@@ -516,9 +541,6 @@ public class Application {
                             break;
                         }
 
-                        // Minor bug: even if they are entered into the course, it says it does not exist
-                        // Need to implement a view grades
-                        // Quiz name does not work
                         System.out.println("That course does not exist!");
                     }
 
