@@ -1,6 +1,4 @@
 # Project04
-Grayson Nocera: Submitted Vocareum.
-Trey Rosenfeldt: Submitted Report.
 
 Compilation: To compile and run the program, open up the terminal. Then, run the following command to compile the program: "javac Application.java". After the program has compiled, run "Application.java". When this is run, a series of menus will come up to guide the user through our program.
 
